@@ -1,10 +1,18 @@
 package mytunes.gui.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
@@ -12,10 +20,13 @@ import mytunes.bll.MyTunesBusiness;
 import mytunes.gui.model.ListViewSongsModel;
 import mytunes.gui.model.TableViewPlaylistsModel;
 import mytunes.gui.model.TableViewSongsModel;
+import mytunes.gui.view.NewEditDialog;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MyTunesController implements Initializable {
@@ -41,6 +52,8 @@ public class MyTunesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tvSongsModel = new TableViewSongsModel();
+        tblViewRight.setItems(tvSongsModel.getSongsList());
         initTables();
     }
 
@@ -48,7 +61,7 @@ public class MyTunesController implements Initializable {
         Adds cell value factories to columns in tables
         a.k.a takes the desired values from objects, so we don't have to do it manually
      */
-    private void initTables(){
+    private void initTables() {
         //right side
         tblColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tblColumnArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
@@ -73,6 +86,12 @@ public class MyTunesController implements Initializable {
 
     public void handleNewSong(ActionEvent event) {
         System.out.println("New Song");
+        NewEditDialog dialog = new NewEditDialog();
+        Optional<Song> result = dialog.showAndWait();
+        result.ifPresent(response -> {
+            tvSongsModel.addSong(response);
+            System.out.println(response.toString());
+        });
     }
 
     public void handleEditSong(ActionEvent event) {

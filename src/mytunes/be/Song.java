@@ -44,4 +44,14 @@ public class Song {
     public void setSource(String source){
         this.source = source;
     }
+
+    @Override
+    public String toString(){
+        return "%s: %s - %s\n%s".formatted(
+                this.artist,
+                this.title,
+                this.genre,
+                this.source
+        );
+    }
 }

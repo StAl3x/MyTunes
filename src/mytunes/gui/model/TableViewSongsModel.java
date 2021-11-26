@@ -11,4 +11,12 @@ public class TableViewSongsModel {
     public TableViewSongsModel(){
         songsList = FXCollections.observableArrayList();
     }
+
+    public void addSong(Song song){
+        songsList.add(song);
+    }
+
+    public ObservableList<Song> getSongsList(){
+        return this.songsList;
+    }
 }
