@@ -32,10 +32,10 @@
             <Label text="Songs" />
             <TableView id="tblViewRight" fx:id="tblViewRight" prefHeight="418.0" prefWidth="372.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Title " />
-                <TableColumn prefWidth="75.0" text="Artist" />
-                  <TableColumn prefWidth="75.0" text="Genre" />
-                  <TableColumn prefWidth="86.39994506835939" text="Time" />
+                <TableColumn fx:id="tblColumnTitle" editable="false" prefWidth="75.0" text="Title " />
+                <TableColumn fx:id="tblColumnArtist" editable="false" prefWidth="75.0" text="Artist" />
+                  <TableColumn fx:id="tblColumnGenre" editable="false" prefWidth="75.0" sortable="false" text="Genre" />
+                  <TableColumn fx:id="tblColumnTime" editable="false" prefWidth="86.39994506835939" sortable="false" text="Time" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -115,9 +115,9 @@
             <Label text="Playlists" />
             <TableView id="tblViewRight" fx:id="tblViewLeft" prefHeight="418.0" prefWidth="372.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Name" />
-                  <TableColumn prefWidth="75.0" text="Songs" />
-                  <TableColumn prefWidth="75.0" text="Time" />
+                  <TableColumn fx:id="tblColumnName" editable="false" prefWidth="75.0" sortable="false" text="Name" />
+                  <TableColumn fx:id="tblColumnSongs" editable="false" prefWidth="75.0" sortable="false" text="Songs" />
+                  <TableColumn fx:id="tblColumnPlaylistTime" editable="false" prefWidth="75.0" sortable="false" text="Time" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

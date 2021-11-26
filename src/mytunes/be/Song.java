@@ -1,6 +1,4 @@
-package be;
-
-import javafx.scene.media.MediaPlayer;
+package mytunes.be;
 
 import java.sql.Time;
 
@@ -12,38 +10,38 @@ public class Song {
     private Time time;
     private String source;
 
-    public Song(int songID, String title, String artist, SongGenre genre, Time time, String source){
-        this.songID = songID;
+    public Song(String title, String artist, SongGenre genre, String source) {
         this.title = title;
         this.artist = artist;
         this.genre = genre;
-        this.time = time;
         this.source = source;
     }
 
-    public String play(){
-       return  source;
+    public String getTitle(){
+        return this.title;
     }
 
-
-    //getter and setters
-    public int getSongID() {
-        return songID;
+    public String getArtist(){
+        return this.artist;
     }
 
-    public String getTitle() {
-        return title;
+    public String getGenre(){
+        return this.genre.toString();
     }
 
-    public String getArtist() {
-        return artist;
+    public String getTime(){
+        return this.time.toString();
     }
 
-    public SongGenre getGenre() {
-        return genre;
+    public void setSongID(int id){
+        this.songID = id;
     }
 
-    public Time getTime() {
-        return time;
+    public void setTime(Time time){
+        this.time = time;
+    }
+
+    public void setSource(String source){
+        this.source = source;
     }
 }

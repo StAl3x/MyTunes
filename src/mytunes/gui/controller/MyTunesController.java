@@ -1,22 +1,75 @@
 package mytunes.gui.controller;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import mytunes.be.Playlist;
+import mytunes.be.Song;
+import mytunes.be.SongGenre;
+import mytunes.bll.MyTunesBusiness;
+import mytunes.gui.model.ListViewSongsModel;
+import mytunes.gui.model.TableViewPlaylistsModel;
+import mytunes.gui.model.TableViewSongsModel;
 
-public class MyTunesController {
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class MyTunesController implements Initializable {
 
 
-    public ListView lstViewMiddle;
-    public TableView tblViewLeft;
+    public TableView<Song> tblViewRight;
+    private TableViewSongsModel tvSongsModel;
+    public TableColumn<Song, String> tblColumnTitle;
+    public TableColumn<Song, String> tblColumnArtist;
+    public TableColumn<Song, String> tblColumnGenre;
+    public TableColumn<Song, String> tblColumnTime;
+
+    public TableView<Playlist> tblViewLeft;
+    private TableViewPlaylistsModel tvPlaylistsModel;
+    public TableColumn<Playlist, String> tblColumnName;
+    public TableColumn<Playlist, String> tblColumnSongs;
+    public TableColumn<Playlist, String> tblColumnPlaylistTime;
+
+    public ListView<Song> lstViewMiddle;
+    private ListViewSongsModel lvSongsModel;
+
     public Label lblSongPlaying;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initTables();
+    }
+
+    /*
+        Adds cell value factories to columns in tables
+        a.k.a takes the desired values from objects, so we don't have to do it manually
+     */
+    private void initTables(){
+        //right side
+        tblColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tblColumnArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        tblColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        //tblColumnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        //left side
+        tblColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
+        //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
+
+        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        List<Song> mySongs = new ArrayList<>();
+        Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
+        tblViewLeft.getItems().add(myPlaylist);
+        tblViewRight.getItems().add(mySong);*/
+    }
+
     /*
         RIGHT SIDE
      */
-    public TableView tblViewRight;
 
     public void handleNewSong(ActionEvent event) {
         System.out.println("New Song");
