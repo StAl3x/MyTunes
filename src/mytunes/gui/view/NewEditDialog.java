@@ -11,12 +11,14 @@ import java.io.IOException;
 
 public class NewEditDialog extends Dialog<Song>{
 
+    private NewEditController controller;
+
     public NewEditDialog(){
         super();
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("NewEditView.fxml"));
             DialogPane dp = loader.load();
-            NewEditController controller = loader.getController();
+            controller = loader.getController();
             this.setTitle("Add/Edit Song");
             this.setDialogPane(dp);
             this.setResultConverter(buttonType -> {
@@ -29,5 +31,12 @@ public class NewEditDialog extends Dialog<Song>{
         } catch (IOException ioex){
             System.out.println("Couldn't load view!");
         }
+    }
+
+    public void setFields(Song song){
+        controller.setArtist(song.getArtist());
+        controller.setTitle(song.getTitle());
+        controller.setGenre(song.getGenre());
+        controller.setPath(song.getSource());
     }
 }

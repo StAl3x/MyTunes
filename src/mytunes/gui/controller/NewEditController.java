@@ -46,6 +46,22 @@ public class NewEditController implements Initializable {
         return this.txtFieldFile.getText();
     }
 
+    public void setTitle(String title){
+        this.txtFieldTitle.setText(title);
+    }
+
+    public void setArtist(String artist){
+        this.txtFieldArtist.setText(artist);
+    }
+
+    public void setGenre(SongGenre genre){
+        this.choiceBoxGenre.setValue(genre);
+    }
+
+    public void setPath(String path){
+        this.txtFieldFile.setText(path);
+    }
+
     public void handleChoose(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select file resource");

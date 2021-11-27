@@ -17,36 +17,52 @@ public class Song {
         this.source = source;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public String getArtist(){
+    public String getArtist() {
         return this.artist;
     }
 
-    public String getGenre(){
-        return this.genre.toString();
+    public SongGenre getGenre() {
+        return this.genre;
     }
 
-    public String getTime(){
+    public String getTime() {
         return this.time.toString();
     }
 
-    public void setSongID(int id){
+    public String getSource() {
+        return this.source;
+    }
+
+    public void setSongID(int id) {
         this.songID = id;
     }
 
-    public void setTime(Time time){
+    public void setTime(Time time) {
         this.time = time;
     }
 
-    public void setSource(String source){
+    public void setSource(String source) {
         this.source = source;
     }
 
+    public void setArtist(String artist){
+        this.artist = artist;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public void setGenre(SongGenre genre){
+        this.genre = genre;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "%s: %s - %s\n%s".formatted(
                 this.artist,
                 this.title,

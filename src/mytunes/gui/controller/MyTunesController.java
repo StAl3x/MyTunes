@@ -1,5 +1,6 @@
 package mytunes.gui.controller;
 
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -84,19 +85,38 @@ public class MyTunesController implements Initializable {
         RIGHT SIDE
      */
 
+    /*
+        Opens a Dialog for creating a new Song
+        adds the Song when APPLY is clicked
+     */
     public void handleNewSong(ActionEvent event) {
         System.out.println("New Song");
         NewEditDialog dialog = new NewEditDialog();
         Optional<Song> result = dialog.showAndWait();
         result.ifPresent(response -> {
             tvSongsModel.addSong(response);
-            System.out.println(response.toString());
+            System.out.println(response);
         });
     }
 
+    /*
+        Get selected Item (Song) from Right TableView,
+        if Song is selected, open a Dialog & fill its fields with the Song properties
+        (=> nice UX - they don't have to retype everything everytime)
+        edit the song when APPLY is clicked
+     */
     public void handleEditSong(ActionEvent event) {
         System.out.println("Edit Song");
-
+        Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
+        if(selectedSong != null){
+            NewEditDialog dialog = new NewEditDialog();
+            dialog.setFields(selectedSong);
+            Optional<Song> result = dialog.showAndWait();
+            result.ifPresent(response -> {
+                tvSongsModel.edit(selectedSong, response);
+                System.out.println(response);
+            });
+        }
     }
 
     public void handleDeleteSong(ActionEvent event) {

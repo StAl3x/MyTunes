@@ -19,4 +19,8 @@ public class TableViewSongsModel {
     public ObservableList<Song> getSongsList(){
         return this.songsList;
     }
+
+    public void edit(Song selectedSong, Song editedSong){
+        songsList.set(songsList.indexOf(selectedSong), editedSong);
+    }
 }
