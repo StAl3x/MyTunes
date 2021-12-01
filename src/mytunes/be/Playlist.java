@@ -23,4 +23,6 @@ public class Playlist {
     public String getName(){
         return this.name;
     }
+
+    public List<Song> getSongs(){return this.songs;}
 }

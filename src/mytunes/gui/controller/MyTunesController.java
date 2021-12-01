@@ -1,6 +1,9 @@
 package mytunes.gui.controller;
 
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -58,6 +61,7 @@ public class MyTunesController implements Initializable {
         tblViewRight.setItems(tvSongsModel.getSongsList());
         tvPlaylistsModel = new TableViewPlaylistsModel();
         tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+        lvSongsModel = new ListViewSongsModel();
         initTables();
 
     }
@@ -78,11 +82,11 @@ public class MyTunesController implements Initializable {
         //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
 
-        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
         List<Song> mySongs = new ArrayList<>();
         Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
         tblViewLeft.getItems().add(myPlaylist);
-        tblViewRight.getItems().add(mySong);*/
+        tblViewRight.getItems().add(mySong);
     }
 
     /*
@@ -179,6 +183,7 @@ public class MyTunesController implements Initializable {
     /*
         MIDDLE PART
      */
+
     public void handleMoveUp(ActionEvent event) {
         System.out.println("Move Up");
 
@@ -222,4 +227,6 @@ public class MyTunesController implements Initializable {
         System.out.println("Filter");
 
     }
+
+
 }
