@@ -27,7 +27,7 @@
         </rowConstraints>
          <children>
             <Label text="Title" />
-            <Label text="Arist" GridPane.rowIndex="1" />
+            <Label text="Artist" GridPane.rowIndex="1" />
             <Label text="Genre" GridPane.rowIndex="2" />
             <Label text="Time" GridPane.rowIndex="3" />
             <Label text="File" GridPane.rowIndex="4" />
