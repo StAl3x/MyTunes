@@ -16,6 +16,8 @@ public class NewPlaylistController{
         return this.txtFieldPlaylistName.getText();
     }
 
+    public void setPlaylistName(String name){this.txtFieldPlaylistName.setText(name);}
+
 
 
 }

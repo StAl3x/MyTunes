@@ -22,7 +22,7 @@ public class NewPlaylistDialog extends Dialog<Playlist>{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("NewPlaylistView.fxml"));
             DialogPane dp = loader.load();
             controller = loader.getController();
-            this.setTitle("Create Playlist");
+            this.setTitle("Add/Edit Playlist");
             this.setDialogPane(dp);
             this.setResultConverter(buttonType -> {
                 if(buttonType == ButtonType.APPLY){
@@ -34,5 +34,9 @@ public class NewPlaylistDialog extends Dialog<Playlist>{
         } catch (IOException ioex){
             System.out.println("Couldn't load view!");
         }
+    }
+
+    public void setFields(Playlist playlist){
+        controller.setPlaylistName(playlist.getName());
     }
 }
