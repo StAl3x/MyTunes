@@ -56,6 +56,8 @@ public class MyTunesController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tvSongsModel = new TableViewSongsModel();
         tblViewRight.setItems(tvSongsModel.getSongsList());
+        tvPlaylistsModel = new TableViewPlaylistsModel();
+        tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
         initTables();
     }
 
