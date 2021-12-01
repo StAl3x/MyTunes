@@ -22,6 +22,7 @@ import mytunes.gui.model.ListViewSongsModel;
 import mytunes.gui.model.TableViewPlaylistsModel;
 import mytunes.gui.model.TableViewSongsModel;
 import mytunes.gui.view.NewEditDialog;
+import mytunes.gui.view.NewPlaylistDialog;
 
 import java.io.IOException;
 import java.net.URL;
@@ -134,17 +135,37 @@ public class MyTunesController implements Initializable {
      */
     public void handleNewPlaylist(ActionEvent event) {
         System.out.println("New Playlist");
-
+        NewPlaylistDialog dialog = new NewPlaylistDialog();
+        Optional<Playlist> result = dialog.showAndWait();
+        result.ifPresent(response -> {
+            tvPlaylistsModel.addPlaylist(response);
+            System.out.println(response);
+        });
     }
+
 
     public void handleEditPlaylist(ActionEvent event) {
         System.out.println("Edit Playlist");
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        if(selectedPlaylist != null){
+            NewPlaylistDialog dialog = new NewPlaylistDialog();
+            dialog.setFields(selectedPlaylist);
+            Optional<Playlist> result = dialog.showAndWait();
+            result.ifPresent(response -> {
+                tvPlaylistsModel.edit(selectedPlaylist, response);
+                System.out.println(response);
+            });
+        }
 
     }
 
     public void handleDeletePlaylist(ActionEvent event) {
         System.out.println("Delete Playlist");
-
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        if(selectedPlaylist != null)
+        {
+            tvPlaylistsModel.deletePlaylist(selectedPlaylist);
+        }
     }
 
     /*
