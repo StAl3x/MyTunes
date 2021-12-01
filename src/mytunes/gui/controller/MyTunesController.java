@@ -124,7 +124,11 @@ public class MyTunesController implements Initializable {
 
     public void handleDeleteSong(ActionEvent event) {
         System.out.println("Delete Song");
-
+        Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
+        if(selectedSong != null)
+        {
+            tvSongsModel.deleteSong(selectedSong);
+        }
     }
 
     public void handleSongToPlaylist(ActionEvent event) {

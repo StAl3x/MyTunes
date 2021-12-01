@@ -3,7 +3,6 @@ package mytunes.gui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
-import mytunes.be.Song;
 
 public class TableViewPlaylistsModel {
 
