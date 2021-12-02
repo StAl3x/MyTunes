@@ -1,6 +1,8 @@
 package mytunes.gui.controller;
 
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,15 +28,12 @@ import mytunes.gui.view.NewPlaylistDialog;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MyTunesController implements Initializable {
 
-
     public TableView<Song> tblViewRight;
+    public Button btnLoadPlaylist;
     private TableViewSongsModel tvSongsModel;
     public TableColumn<Song, String> tblColumnTitle;
     public TableColumn<Song, String> tblColumnArtist;
@@ -51,6 +50,8 @@ public class MyTunesController implements Initializable {
     private ListViewSongsModel lvSongsModel;
 
     public Label lblSongPlaying;
+
+    private Playlist selectPlaylist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,11 +78,19 @@ public class MyTunesController implements Initializable {
         //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
 
-        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "nosauce");
+
         List<Song> mySongs = new ArrayList<>();
+        mySongs.add(myMadSong);
         Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
         tblViewLeft.getItems().add(myPlaylist);
-        tblViewRight.getItems().add(mySong);*/
+        tblViewRight.getItems().add(mySong);
+        List<Song> newSongs = new ArrayList<>();
+        newSongs.add(myNewSong);
+        Playlist newPlaylist = new Playlist("My happy playlist", newSongs);
+        tblViewLeft.getItems().add(newPlaylist);
     }
 
     /*
@@ -133,7 +142,10 @@ public class MyTunesController implements Initializable {
 
     public void handleSongToPlaylist(ActionEvent event) {
         System.out.println("To Playlist");
-
+        selectPlaylist.addSong(tblViewRight.getSelectionModel().getSelectedItem());
+        ObservableList<Song> obsList = FXCollections.observableArrayList();
+        obsList.addAll(selectPlaylist.getSongs());
+        lstViewMiddle.setItems(obsList);
     }
 
     /*
@@ -177,6 +189,19 @@ public class MyTunesController implements Initializable {
     /*
         MIDDLE PART
      */
+
+    public void handleLeftTableClicked(MouseEvent mouseEvent) {
+        Playlist playlist = tblViewLeft.getSelectionModel().getSelectedItem();
+        if(playlist != null)
+        {
+            List<Song> selectedPlaylistSongs = tblViewLeft.getSelectionModel().getSelectedItem().getSongs();
+            ObservableList<Song> obsList = FXCollections.observableArrayList();
+            obsList.addAll(selectedPlaylistSongs);
+            lstViewMiddle.setItems(obsList);
+            selectPlaylist = playlist;
+        }
+    }
+
     public void handleMoveUp(ActionEvent event) {
         System.out.println("Move Up");
 
@@ -220,4 +245,7 @@ public class MyTunesController implements Initializable {
         System.out.println("Filter");
 
     }
+
+
+
 }
