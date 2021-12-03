@@ -81,9 +81,15 @@ public class MyTunesController implements Initializable {
         Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "nosauce");
-
+        Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
         List<Song> mySongs = new ArrayList<>();
+        mySongs.add(mySong);
         mySongs.add(myMadSong);
+        mySongs.add(mySmartSong);
+        mySongs.add(myFatSong);
+        mySongs.add(myGladSong);
         Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
         tblViewLeft.getItems().add(myPlaylist);
         tblViewRight.getItems().add(mySong);
@@ -184,6 +190,7 @@ public class MyTunesController implements Initializable {
         {
             tvPlaylistsModel.deletePlaylist(selectedPlaylist);
         }
+        lstViewMiddle.setItems(FXCollections.observableArrayList());
     }
 
     /*
@@ -204,6 +211,23 @@ public class MyTunesController implements Initializable {
 
     public void handleMoveUp(ActionEvent event) {
         System.out.println("Move Up");
+        Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        for (int i = 0; i<selectPlaylist.getSongs().size(); i++)
+        {
+            if(selectPlaylist.getSongs().get(i).equals(selectedSong) && i !=0)
+            {
+                Collections.swap(selectPlaylist.getSongs(),i, i-1);
+                ObservableList<Song> obsList = FXCollections.observableArrayList();
+                obsList.addAll(selectPlaylist.getSongs());
+                lstViewMiddle.setItems(obsList);
+                break;
+            }
+            else
+            {
+                System.out.println("Cannot move further up");
+            }
+        }
+
 
     }
 
