@@ -20,7 +20,6 @@ import java.util.*;
 public class MyTunesController implements Initializable {
 
     public TableView<Song> tblViewRight;
-    public Button btnLoadPlaylist;
     private TableViewSongsModel tvSongsModel;
     public TableColumn<Song, String> tblColumnTitle;
     public TableColumn<Song, String> tblColumnArtist;
@@ -72,15 +71,7 @@ public class MyTunesController implements Initializable {
         Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
-        /*List<Song> mySongs = new ArrayList<>();
-        mySongs.add(mySong);
-        mySongs.add(myMadSong);
-        mySongs.add(mySmartSong);
-        mySongs.add(myFatSong);
-        mySongs.add(myGladSong);
-         */
 
-        //songLibrary.addToLibrary(mySong);
         Playlist myPlaylist = new Playlist("My sad playlist");
         myPlaylist.addSong(mySong);
         myPlaylist.addSong(myMadSong);
