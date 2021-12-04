@@ -72,21 +72,23 @@ public class MyTunesController implements Initializable {
         Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
         Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
-        List<Song> mySongs = new ArrayList<>();
+        /*List<Song> mySongs = new ArrayList<>();
         mySongs.add(mySong);
         mySongs.add(myMadSong);
         mySongs.add(mySmartSong);
         mySongs.add(myFatSong);
         mySongs.add(myGladSong);
+         */
 
         //songLibrary.addToLibrary(mySong);
-        Playlist myPlaylist = new Playlist("My sad playlist", mySongs );
+        Playlist myPlaylist = new Playlist("My sad playlist");
+        myPlaylist.addSong(mySong);
+        myPlaylist.addSong(myMadSong);
+        myPlaylist.addSong(mySmartSong);
+        myPlaylist.addSong(myFatSong);
+        myPlaylist.addSong(myGladSong);
         tblViewLeft.getItems().add(myPlaylist);
         tblViewRight.getItems().add(mySong);
-        List<Song> newSongs = new ArrayList<>();
-        newSongs.add(myNewSong);
-        Playlist newPlaylist = new Playlist("My happy playlist", newSongs);
-        tblViewLeft.getItems().add(newPlaylist);
     }
 
     /*
@@ -139,8 +141,11 @@ public class MyTunesController implements Initializable {
     public void handleSongToPlaylist(ActionEvent event) {
         System.out.println("To Playlist");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedSong != null) {
-            lvSongsModel.addOneSongToListView(selectedSong);
+            Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
+            lvSongsModel.addOneSongToListView(newSong);
+            selectedPlaylist.addSong(newSong);
         }
     }
 
@@ -200,6 +205,7 @@ public class MyTunesController implements Initializable {
     public void handleMoveUp(ActionEvent event) {
         System.out.println("Move Up");
         Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         List<Song> songList = lvSongsModel.getSongs();
         if(tblViewLeft.getSelectionModel().getSelectedItem() != null)
         {
@@ -209,6 +215,7 @@ public class MyTunesController implements Initializable {
                 {
                     if(songList.get(i).equals(selectedSong) && i !=0) {
                         Collections.swap(songList, i, i - 1);
+                        Collections.swap(selectedPlaylist.getSongs(), i, i-1);
                         break;
                     }
                 }
@@ -219,12 +226,37 @@ public class MyTunesController implements Initializable {
 
     public void handleMoveDown(ActionEvent event) {
         System.out.println("Move Down");
+        Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        List<Song> songList = lvSongsModel.getSongs();
+        if(tblViewLeft.getSelectionModel().getSelectedItem() != null)
+        {
+            if(selectedSong != null)
+            {
+                for (int i = 0; i<songList.size(); i++)
+                {
+                    if(songList.get(i).equals(selectedSong) && i !=songList.size()-1) {
+                        Collections.swap(songList, i, i + 1);
+                        Collections.swap(selectedPlaylist.getSongs(), i, i+1);
+                        break;
+                    }
+                }
 
+            }
+        }
     }
 
     public void handleRemoveFromPlaylist(ActionEvent event) {
         System.out.println("Remove From Playlist");
-
+        Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        List<Song> songList = lvSongsModel.getSongs();
+        if(tblViewLeft.getSelectionModel().getSelectedItem() != null) {
+            if (selectedSong != null) {
+                selectedPlaylist.removeSong(selectedSong);
+                songList.remove(selectedSong);
+            }
+        }
     }
 
 

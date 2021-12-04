@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Playlist {
     private String name;
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
 
     public Playlist(String name)
     {
@@ -22,7 +22,8 @@ public class Playlist {
     }
 
     public void addSong(Song song){
-        songs.add(song);
+        Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
+        songs.add(newSong);
     }
 
     public String getName(){
