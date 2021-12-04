@@ -1,9 +1,9 @@
 package mytunes.be;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
+    private int id;
     private String name;
     private List<Song> songs = new ArrayList<>();
 
@@ -12,7 +12,8 @@ public class Playlist {
         this.name = name;
     }
 
-    public Playlist(String name, List<Song> songs){
+    public Playlist(int id, String name, List<Song> songs){
+        this.id= id;
         this.name = name;
         this.songs = songs;
     }
