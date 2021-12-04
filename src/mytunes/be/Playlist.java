@@ -5,7 +5,12 @@ import java.util.List;
 public class Playlist {
     private int id;
     private String name;
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
+
+    public Playlist(String name)
+    {
+        this.name = name;
+    }
 
     public Playlist(int id, String name, List<Song> songs){
         this.id= id;
@@ -18,10 +23,16 @@ public class Playlist {
     }
 
     public void addSong(Song song){
-        songs.add(song);
+        Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
+        songs.add(newSong);
     }
 
     public String getName(){
         return this.name;
+    }
+
+    public List<Song> getSongs()
+    {
+        return this.songs;
     }
 }
