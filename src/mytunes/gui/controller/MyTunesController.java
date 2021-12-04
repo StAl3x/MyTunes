@@ -51,14 +51,14 @@ public class MyTunesController implements Initializable {
 
     public Label lblSongPlaying;
 
-    private Playlist selectPlaylist;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tvSongsModel = new TableViewSongsModel();
         tblViewRight.setItems(tvSongsModel.getSongsList());
         tvPlaylistsModel = new TableViewPlaylistsModel();
         tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+        lvSongsModel = new ListViewSongsModel();
+        lstViewMiddle.setItems(lvSongsModel.getSongs());
         initTables();
     }
 
@@ -148,10 +148,7 @@ public class MyTunesController implements Initializable {
 
     public void handleSongToPlaylist(ActionEvent event) {
         System.out.println("To Playlist");
-        selectPlaylist.addSong(tblViewRight.getSelectionModel().getSelectedItem());
-        ObservableList<Song> obsList = FXCollections.observableArrayList();
-        obsList.addAll(selectPlaylist.getSongs());
-        lstViewMiddle.setItems(obsList);
+        lvSongsModel.addOneSongToListView(tblViewRight.getSelectionModel().getSelectedItem());
     }
 
     /*
@@ -190,7 +187,7 @@ public class MyTunesController implements Initializable {
         {
             tvPlaylistsModel.deletePlaylist(selectedPlaylist);
         }
-        lstViewMiddle.setItems(FXCollections.observableArrayList());
+        lvSongsModel.deleteSongsFromListView();
     }
 
     /*
@@ -202,33 +199,31 @@ public class MyTunesController implements Initializable {
         if(playlist != null)
         {
             List<Song> selectedPlaylistSongs = tblViewLeft.getSelectionModel().getSelectedItem().getSongs();
-            ObservableList<Song> obsList = FXCollections.observableArrayList();
-            obsList.addAll(selectedPlaylistSongs);
-            lstViewMiddle.setItems(obsList);
-            selectPlaylist = playlist;
+            lvSongsModel.deleteSongsFromListView();
+            lvSongsModel.addSongsToListView(selectedPlaylistSongs);
         }
     }
 
     public void handleMoveUp(ActionEvent event) {
-        System.out.println("Move Up");
+        /*System.out.println("Move Up");
         Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
-        for (int i = 0; i<selectPlaylist.getSongs().size(); i++)
+        if(tblViewLeft.getSelectionModel().getSelectedItem() != null)
         {
-            if(selectPlaylist.getSongs().get(i).equals(selectedSong) && i !=0)
+            if(selectedSong != null)
             {
-                Collections.swap(selectPlaylist.getSongs(),i, i-1);
-                ObservableList<Song> obsList = FXCollections.observableArrayList();
-                obsList.addAll(selectPlaylist.getSongs());
-                lstViewMiddle.setItems(obsList);
-                break;
-            }
-            else
-            {
-                System.out.println("Cannot move further up");
+                for (int i = 0; i<selectPlaylist.getSongs().size(); i++)
+                {
+                    if(selectPlaylist.getSongs().get(i).equals(selectedSong) && i !=0) {
+                        Collections.swap(selectPlaylist.getSongs(), i, i - 1);
+                        lvSongsModel.deleteSongsFromListView();
+                        lvSongsModel.addSongsToListView(selectPlaylist.getSongs());
+                    }
+                }
+
             }
         }
 
-
+         */
     }
 
     public void handleMoveDown(ActionEvent event) {

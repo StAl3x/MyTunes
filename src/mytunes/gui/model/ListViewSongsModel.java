@@ -16,9 +16,24 @@ public class ListViewSongsModel {
         songsOnPlaylist = FXCollections.observableArrayList();
     }
 
-    public void addPlaylistToListView(List<Song> songs)
+    public ObservableList<Song> getSongs()
+    {
+        return songsOnPlaylist;
+    }
+
+    public void addSongsToListView(List<Song> songs)
     {
         songsOnPlaylist.addAll(songs);
+
+    }
+
+    public void deleteSongsFromListView(){
+        songsOnPlaylist.remove(0, songsOnPlaylist.size());
+    }
+
+    public void addOneSongToListView(Song song)
+    {
+        songsOnPlaylist.add(song);
     }
 
 }
