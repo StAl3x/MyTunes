@@ -2,6 +2,7 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 
@@ -10,10 +11,12 @@ import java.util.List;
 public class ListViewSongsModel {
 
     ObservableList<Song> songsOnPlaylist;
+    //ObservableMap<Integer, Song> songsOnPlaylist;
 
     public ListViewSongsModel()
     {
         songsOnPlaylist = FXCollections.observableArrayList();
+        //songsOnPlaylist = FXCollections.observableHashMap();
     }
 
     public ObservableList<Song> getSongs()
@@ -35,5 +38,4 @@ public class ListViewSongsModel {
     {
         songsOnPlaylist.add(song);
     }
-
 }
