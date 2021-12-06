@@ -1,10 +1,13 @@
 package mytunes.gui.controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import mytunes.be.Gramophone;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
@@ -36,6 +39,7 @@ public class MyTunesController implements Initializable {
     private ListViewSongsModel lvSongsModel;
 
     public Label lblSongPlaying;
+    Gramophone player ;
 
 
     @Override
@@ -65,21 +69,23 @@ public class MyTunesController implements Initializable {
         //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
 
-        Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
+        Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "C:\\UniStuff\\MyTunes\\MyTunes\\src\\mockData\\bensound-ukulele.mp3");
+        Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "C:\\UniStuff\\MyTunes\\MyTunes\\src\\mockData\\bensound-anewbeginning.mp3");
+        Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "C:\\UniStuff\\MyTunes\\MyTunes\\src\\mockData\\bensound-creativeminds.mp3");
+        Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "C:\\UniStuff\\MyTunes\\MyTunes\\src\\mockData\\bensound-littleidea.mp3");
+
 
         Playlist myPlaylist = new Playlist("My sad playlist");
         myPlaylist.addSong(mySong);
         myPlaylist.addSong(myMadSong);
-        myPlaylist.addSong(mySmartSong);
-        myPlaylist.addSong(myFatSong);
+        myPlaylist.addSong(myNewSong);
         myPlaylist.addSong(myGladSong);
         tblViewLeft.getItems().add(myPlaylist);
         tblViewRight.getItems().add(mySong);
+        tblViewRight.getItems().add(myNewSong);
+        tblViewRight.getItems().add(myMadSong);
+        tblViewRight.getItems().add(myGladSong);
+
     }
 
     /*
@@ -254,28 +260,103 @@ public class MyTunesController implements Initializable {
     /*
         TOP PART
      */
+    @FXML
+    private Button btnPlay;
+    @FXML
+    private Slider sldrVolume;
+    @FXML
+    private boolean isPlaying = false;
+    private int songIndex = 0;
+    private List<Song> selectedPlaylist = new ArrayList<>();
+    private Song songToPlay;
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
+        if (!lstViewMiddle.getSelectionModel().isEmpty())
+            selectedPlaylist = lstViewMiddle.getItems();
+
+        else
+            selectedPlaylist = tblViewRight.getItems();
+
+        songToPlay = selectedPlaylist.get(songIndex);
+        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
+
+
+        if (!isPlaying) {
+                player = new Gramophone(songToPlay);
+                btnPlay.setText("Pause");
+                player.play();
+                isPlaying = true;
+            }
+        else if (isPlaying) {
+                player.stop();
+                btnPlay.setText("Play");
+                isPlaying = false;
+            }
 
     }
-
+    // label not changing first time
+    //auto play, after time will get loaded from mp3 header
     public void handlePrevious(ActionEvent event) {
         System.out.println("Previous");
+        player.stop();
+        songToPlay = selectedPlaylist.get(songIndex);
+        if(songIndex == 0){
+            songIndex = selectedPlaylist.size()-1;
+            player = new Gramophone(selectedPlaylist.get(songIndex));
+        }
+
+        else{
+            songIndex --;
+            player = new Gramophone(selectedPlaylist.get(songIndex));
+        }
+        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
+        player.play();
+        btnPlay.setText("Pause");
+        isPlaying = true;
 
     }
 
     public void handleNext(ActionEvent event) {
         System.out.println("Next");
+        songToPlay = selectedPlaylist.get(songIndex);
+        player.stop();
+        if(songIndex == selectedPlaylist.size()-1){
+            songIndex = 0;
+            player = new Gramophone(tblViewRight.getItems().get(songIndex));
+        }
+        else{
+            songIndex++;
+            player = new Gramophone(tblViewRight.getItems().get(songIndex));
+        }
+        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
+        player.play();
+        btnPlay.setText("Pause");
+        isPlaying = true;
 
     }
 
     public void handleVolume(MouseEvent mouseEvent) {
         System.out.println("Change of Volume");
+        //float  volume = (float) (1 - (Math.log(100 - sldrVolume.getValue()) / Math.log(100)));
 
+        this.player.setVolume(sldrVolume.getValue());
+        System.out.println("Slider value:" + sldrVolume.getValue());
     }
-
+    @FXML
+    private TextField txtFieldFilter;
     public void handleFilter(ActionEvent event) {
         System.out.println("Filter");
+        List<Song> filterList = new ArrayList<>();
+        String selection = txtFieldFilter.getText().toLowerCase();
+        tvSongsModel.getSongsList().removeAll();
+        for (Song s :tblViewRight.getItems()){
+            if(s.getArtist().toLowerCase().contains(selection) ||
+               s.getGenre().toString().toLowerCase().contains(selection) ||
+               s.getTitle().toLowerCase().contains(selection))
+                filterList.add(s);
+        }
+
+
 
     }
 

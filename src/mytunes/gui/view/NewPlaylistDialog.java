@@ -26,7 +26,7 @@ public class NewPlaylistDialog extends Dialog<Playlist>{
             this.setDialogPane(dp);
             this.setResultConverter(buttonType -> {
                 if(buttonType == ButtonType.APPLY){
-                    return new Playlist(controller.getPlaylistName(), new ArrayList<Song>());
+                    //return new Playlist(controller.getPlaylistName(), new ArrayList<Song>());
                 }
                 return null;
             });

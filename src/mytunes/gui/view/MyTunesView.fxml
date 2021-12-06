@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.MyTunesController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.79998779296875" minWidth="10.0" prefWidth="249.79998779296875" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.39996337890625" minWidth="10.0" prefWidth="182.40001220703127" />
@@ -184,7 +184,7 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <Slider fx:id="sldrVolume" onDragDetected="#handleVolume">
+                  <Slider fx:id="sldrVolume" blockIncrement="1.0" max="1.0" onMouseReleased="#handleVolume" value="1.0">
                      <HBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </HBox.margin>

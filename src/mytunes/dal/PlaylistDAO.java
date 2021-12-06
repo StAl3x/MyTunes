@@ -31,8 +31,8 @@ public class PlaylistDAO
                     int id = resultSet.getInt("PlaylistID");
                     String title= resultSet.getString("Title");
 
-                    Playlist playlist = new Playlist(id, title);
-                    allPlaylists.add(playlist);
+                    //Playlist playlist = new Playlist(id, title);
+                    //allPlaylists.add(playlist);
 
                 }
             }
