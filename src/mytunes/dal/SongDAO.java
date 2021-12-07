@@ -53,4 +53,8 @@ public class SongDAO {
             statement.execute();
         }
     }
+    public void removeSong() throws SQLException
+    {
+        
+    }
 }
