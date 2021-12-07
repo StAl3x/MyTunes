@@ -24,11 +24,7 @@ public class SongsLogic {
 
     public void newSong (Song song)
     {
-        try {
-            songDAO.addSong(song);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        songDAO.addSong(song);
     }
 
     public void editSong(Song song)

@@ -42,14 +42,15 @@ public class SongDAO {
         }
         return allSongs;
     }
-    public void addSong(Song song) throws SQLException
+    public void addSong(Song song)
     {
+        String title = song.getTitle();
+        String artist = song.getArtist();
+        String genre = song.getGenre().toString();
+        String source = song.getSource();
+
         try (Connection connection = dbConnector.getConnection())
         {
-            String title = song.getTitle();
-            String artist = song.getArtist();
-            String genre = song.getGenre().toString();
-            String source = song.getSource();
             String sql = "INSERT INTO Songs( Title, Artist, Genre, Source) VALUES ( ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, title);
@@ -57,6 +58,21 @@ public class SongDAO {
             statement.setString(3, genre);
             statement.setString(4, source);
             statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void editSong(Song song)
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql = "UPDATE Songs SET Title=?, Artist=?, Genre=?, Source=? WHERE SongID=?;";
+            PreparedStatement preparedStatement =connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, song.getTitle());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
