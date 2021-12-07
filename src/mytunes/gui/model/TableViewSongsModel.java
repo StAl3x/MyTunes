@@ -17,8 +17,7 @@ public class TableViewSongsModel {
     }
 
     public void addSong(Song song){
-        songsList.add(song);
-        songsLogic.newSong(song);
+        songsList.add(songsLogic.newSong(song));
     }
 
     public ObservableList<Song> getSongsList(){
