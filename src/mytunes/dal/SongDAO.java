@@ -1,6 +1,5 @@
 package mytunes.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
 
@@ -52,12 +51,12 @@ public class SongDAO {
         try (Connection connection = dbConnector.getConnection())
         {
             String sql = "INSERT INTO Songs( Title, Artist, Genre, Source) VALUES ( ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, title);
-            statement.setString(2, artist);
-            statement.setString(3, genre);
-            statement.setString(4, source);
-            statement.execute();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, artist);
+            preparedStatement.setString(3, genre);
+            preparedStatement.setString(4, source);
+            preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -75,12 +74,22 @@ public class SongDAO {
             throwables.printStackTrace();
         }
     }
+
     public void removeSong(Song song)
     {
         try (Connection connection = dbConnector.getConnection())
         {
-            String sql = "DROP * FROM PlaylistConnector WHERE SongID = "+song.getSongID();
-            statement.execute();
+            String sql1 = "DELETE FROM PlaylistConnector WHERE SongID = ?";
+            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
+            preparedStatement1.setInt(1, song.getSongID());
+            preparedStatement1.execute();
+            String sql2 = "DELETE FROM Songs WHERE SongID = ?";
+            PreparedStatement preparedStatement2 =connection.prepareStatement(sql2);
+            preparedStatement2.setInt(1, song.getSongID());
+            preparedStatement2.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

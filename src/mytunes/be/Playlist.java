@@ -8,10 +8,6 @@ public class Playlist {
     private String name;
     private List<Song> songs = new ArrayList<>();
 
-    public Playlist(String name)
-    {
-        this.name = name;
-    }
 
     public Playlist(String name){this.name=name;}
 
@@ -20,6 +16,8 @@ public class Playlist {
         this.name = name;
         this.songs = songs;
     }
+
+
 
     public void removeSong(Song song){
         songs.remove(song);
