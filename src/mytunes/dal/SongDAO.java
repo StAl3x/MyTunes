@@ -53,8 +53,12 @@ public class SongDAO {
             statement.execute();
         }
     }
-    public void removeSong() throws SQLException
+    public void removeSong(Song song)
     {
-        
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql = "DROP * FROM PlaylistConnector WHERE SongID = "+song.getSongID();
+            statement.execute();
+        }
     }
 }
