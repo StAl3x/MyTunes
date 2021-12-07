@@ -22,13 +22,14 @@ public class SongsLogic {
         return allSongs;
     }
 
-    public void newSong (Song song)
+    public Song newSong (Song song)
     {
-        songDAO.addSong(song);
+        return songDAO.addSong(song);
     }
 
-    public void editSong(Song song)
+    public void editSong(int IndexOfSelectedSong, Song editedSong)
     {
+        songDAO.editSong(IndexOfSelectedSong, editedSong);
     }
 
 }

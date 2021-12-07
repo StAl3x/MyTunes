@@ -17,8 +17,7 @@ public class TableViewSongsModel {
     }
 
     public void addSong(Song song){
-        songsList.add(song);
-        songsLogic.newSong(song);
+        songsList.add(songsLogic.newSong(song));
     }
 
     public ObservableList<Song> getSongsList(){
@@ -27,6 +26,7 @@ public class TableViewSongsModel {
 
     public void edit(Song selectedSong, Song editedSong){
         songsList.set(songsList.indexOf(selectedSong), editedSong);
+        songsLogic.editSong(songsList.indexOf(selectedSong), editedSong);
     }
 
     public void deleteSong(Song song)
