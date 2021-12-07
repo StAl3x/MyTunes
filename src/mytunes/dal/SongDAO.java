@@ -3,10 +3,7 @@ package mytunes.dal;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +14,7 @@ public class SongDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Song> getAllPlaylists() throws SQLException
+    public List<Song> getAllSongs() throws SQLException
     {
         ArrayList<Song> allSongs = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection())
@@ -35,7 +32,6 @@ public class SongDAO {
                     String genre = resultSet.getString("Genre");
                     String source = resultSet.getString("Source");
 
-
                     Song song = new Song(title, artist,  SongGenre.valueOf(genre), source);
                     allSongs.add(song);
 
@@ -43,5 +39,18 @@ public class SongDAO {
             }
         }
         return allSongs;
+    }
+    public void addSong(String title, String artist, String genre, String source) throws SQLException
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql = "INSERT INTO Songs( Title, Artist, Genre, Source) VALUES ( ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, title);
+            statement.setString(2, artist);
+            statement.setString(3, genre);
+            statement.setString(4, source);
+            statement.execute();
+        }
     }
 }

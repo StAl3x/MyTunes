@@ -1,5 +1,6 @@
 package mytunes.be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
@@ -12,8 +13,7 @@ public class Playlist {
         this.name = name;
     }
 
-    public Playlist(int id, String name, List<Song> songs){
-        this.id= id;
+    public Playlist(String name, List<Song> songs){
         this.name = name;
         this.songs = songs;
     }
@@ -31,8 +31,14 @@ public class Playlist {
         return this.name;
     }
 
-    public List<Song> getSongs()
-    {
+    public List<Song> getSongs() {
         return this.songs;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+        public int getId() {
+        return id;
     }
 }
