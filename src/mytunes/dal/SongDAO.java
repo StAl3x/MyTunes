@@ -27,8 +27,8 @@ public class SongDAO {
                 ResultSet resultSet = statement.getResultSet();
                 while(resultSet.next())
                 {
-                    int id = resultSet.getInt("ID");
-                    songID = id +1;
+                    int id = resultSet.getInt("SongID");
+                    songID = id;
                 }
             }
         }
