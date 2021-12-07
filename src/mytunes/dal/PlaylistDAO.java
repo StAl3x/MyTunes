@@ -56,8 +56,8 @@ public class PlaylistDAO
             statement.setInt(3,songIndex);
             statement.execute();
         }
-
     }
+
     public void seedPlaylist ( Playlist playlist ) throws SQLException
     {
         try (Connection connection = dbConnector.getConnection())
@@ -65,7 +65,6 @@ public class PlaylistDAO
             String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getId());
-
 
             if(statement.execute(sql))
             {
