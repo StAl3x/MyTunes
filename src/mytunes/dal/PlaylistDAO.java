@@ -28,7 +28,7 @@ public class PlaylistDAO
                     int id = resultSet.getInt("PlaylistID");
                     String title= resultSet.getString("Title");
 
-                    Playlist playlist = new Playlist(title,null);
+                    Playlist playlist = new Playlist(title);
                     playlist.setId(id);
                     allPlaylists.add(playlist);
 
@@ -47,11 +47,11 @@ public class PlaylistDAO
             statement.execute();
         }
     }
-    public void addSongToPlaylist( int songId , int playlistId , int songIndex ) throws SQLException
+    public void addSongToPlaylistConnector( int songId , int playlistId , int songIndex ) throws SQLException
     {
         try (Connection connection = dbConnector.getConnection())
         {
-            String sql = "INSERT INTO PlaylistConnector(SongId,PlaylistId, Index) VALUES ( ? , ? , ? )";
+            String sql = "INSERT INTO PlaylistConnector(SongId,PlaylistId, SongIndex) VALUES ( ? , ? , ? )";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1,songId);
             statement.setInt(2,playlistId);
