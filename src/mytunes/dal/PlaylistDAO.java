@@ -28,7 +28,7 @@ public class PlaylistDAO
                     int id = resultSet.getInt("PlaylistID");
                     String title= resultSet.getString("Title");
                     Playlist playlist = new Playlist(title);
-                    playlist.setId(id);
+                    playlist.setPlaylistID(id);
                     allPlaylists.add(playlist);
                 }
             }
@@ -64,7 +64,7 @@ public class PlaylistDAO
         {
             String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, playlist.getId());
+            statement.setInt(1, playlist.getPlaylistID());
 
             if(statement.execute(sql))
             {
@@ -76,6 +76,24 @@ public class PlaylistDAO
 
                 }
             }
+        }
+    }
+
+    public void removeSong(Playlist playlist)
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql1 = "DELETE FROM PlaylistConnector WHERE PlaylistID = ?";
+            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
+            preparedStatement1.setInt(1, playlist.getPlaylistID());
+            preparedStatement1.execute();
+            String sql2 = "DELETE FROM Playlists WHERE PlaylistID = ?";
+            PreparedStatement preparedStatement2 =connection.prepareStatement(sql2);
+            preparedStatement2.setInt(1, playlist.getPlaylistID());
+            preparedStatement2.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 

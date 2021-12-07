@@ -43,7 +43,6 @@ public class Song {
         this.songID = id;
     }
 
-    public int getSongID() { return songID; }
 
     public void setTime(Time time) {
         this.time = time;
