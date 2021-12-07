@@ -18,6 +18,7 @@ public class Main extends Application {
         primaryStage.setTitle("MyTunes");
         primaryStage.show();
 
+
     }
 
     public static void main(String[] args) {

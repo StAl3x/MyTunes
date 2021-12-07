@@ -27,11 +27,9 @@ public class PlaylistDAO
                 {
                     int id = resultSet.getInt("PlaylistID");
                     String title= resultSet.getString("Title");
-
                     Playlist playlist = new Playlist(title);
                     playlist.setId(id);
                     allPlaylists.add(playlist);
-
                 }
             }
         }
@@ -58,8 +56,8 @@ public class PlaylistDAO
             statement.setInt(3,songIndex);
             statement.execute();
         }
-
     }
+
     public void seedPlaylist ( Playlist playlist ) throws SQLException
     {
         try (Connection connection = dbConnector.getConnection())
@@ -67,7 +65,6 @@ public class PlaylistDAO
             String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getId());
-
 
             if(statement.execute(sql))
             {

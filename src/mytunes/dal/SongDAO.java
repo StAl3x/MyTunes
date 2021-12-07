@@ -1,5 +1,6 @@
 package mytunes.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
 
@@ -14,7 +15,7 @@ public class SongDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Song> getAllSongs() throws SQLException
+    public List<Song> getAllSongs()
     {
         ArrayList<Song> allSongs = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection())
@@ -31,17 +32,23 @@ public class SongDAO {
                     String artist = resultSet.getString("Artist");
                     String genre = resultSet.getString("Genre");
                     String source = resultSet.getString("Source");
-
                     Song song = new Song(title, artist,  SongGenre.valueOf(genre), source);
                     allSongs.add(song);
 
                 }
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return allSongs;
     }
-    public void addSong(String title, String artist, String genre, String source) throws SQLException
+    public void addSong(Song song)
     {
+        String title = song.getTitle();
+        String artist = song.getArtist();
+        String genre = song.getGenre().toString();
+        String source = song.getSource();
+
         try (Connection connection = dbConnector.getConnection())
         {
             String sql = "INSERT INTO Songs( Title, Artist, Genre, Source) VALUES ( ?, ?, ?, ?)";
@@ -51,6 +58,21 @@ public class SongDAO {
             statement.setString(3, genre);
             statement.setString(4, source);
             statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void editSong(Song song)
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql = "UPDATE Songs SET Title=?, Artist=?, Genre=?, Source=? WHERE SongID=?;";
+            PreparedStatement preparedStatement =connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, song.getTitle());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
     public void removeSong(Song song)

@@ -1,15 +1,22 @@
 package mytunes.be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
     private int id;
     private String name;
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
+
+    public Playlist(String name)
+    {
+        this.name = name;
+    }
 
     public Playlist(String name){this.name=name;}
 
     public Playlist(String name, List<Song> songs){
+        this.id= id;
         this.name = name;
         this.songs = songs;
     }
@@ -19,18 +26,22 @@ public class Playlist {
     }
 
     public void addSong(Song song){
-        songs.add(song);
+        Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
+        songs.add(newSong);
     }
 
     public String getName(){
         return this.name;
     }
 
-    public int getId() {
-        return id;
+    public List<Song> getSongs() {
+        return this.songs;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+        public int getId() {
+        return id;
     }
 }
