@@ -27,8 +27,8 @@ public class TableViewSongsModel {
     }
 
     public void edit(Song selectedSong, Song editedSong){
-        songsList.set(songsList.indexOf(selectedSong), editedSong);
-        songsLogic.editSong(songsList.indexOf(selectedSong), editedSong);
+        Song song = songsLogic.editSong(selectedSong.getSongID(), editedSong);
+        songsList.set(songsList.indexOf(selectedSong), song);
     }
 
     public void deleteSong(Song song)
