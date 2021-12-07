@@ -7,8 +7,7 @@ public class Playlist {
     private String name;
     private List<Song> songs;
 
-    public Playlist(int id, String name, List<Song> songs){
-        this.id= id;
+    public Playlist(String name, List<Song> songs){
         this.name = name;
         this.songs = songs;
     }
@@ -23,5 +22,13 @@ public class Playlist {
 
     public String getName(){
         return this.name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
