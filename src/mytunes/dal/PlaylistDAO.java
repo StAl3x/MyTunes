@@ -64,7 +64,7 @@ public class PlaylistDAO
     {
         try (Connection connection = dbConnector.getConnection())
         {
-            String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ?"; //+ playlist.getId()+";";
+            String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getId());
 
@@ -74,9 +74,8 @@ public class PlaylistDAO
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {
-                    int songIndex = resultSet.getInt("SongIndex");
                     int songId = resultSet.getInt("SongID");
-                    //Song song = new Song();
+
 
                 }
             }
