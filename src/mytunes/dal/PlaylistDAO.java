@@ -1,6 +1,8 @@
 package mytunes.dal;
 
 import mytunes.be.Playlist;
+import mytunes.be.Song;
+import mytunes.bll.SongsLogic;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 public class PlaylistDAO
 {
     private DBConnector dbConnector;
+    private SongsLogic songsLogic;
     public PlaylistDAO()
     {
         dbConnector = new DBConnector();
@@ -65,15 +68,15 @@ public class PlaylistDAO
             String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getPlaylistID());
-
+            List<Song> playlistSongs = new ArrayList<>();
             if(statement.execute(sql))
             {
+                List<Song> allSongs = songsLogic.getAllSongs();
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {
                     int songId = resultSet.getInt("SongID");
-
-
+                    playlist.addSong(allSongs.get(songId));
                 }
             }
         }
