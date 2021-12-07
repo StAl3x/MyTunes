@@ -32,8 +32,14 @@ public class Playlist {
         return this.name;
     }
 
-    public List<Song> getSongs()
-    {
+    public List<Song> getSongs() {
         return this.songs;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+        public int getId() {
+        return id;
     }
 }
