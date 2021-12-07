@@ -13,7 +13,7 @@ public class Playlist {
         this.name = name;
     }
 
-    public Playlist(int id, String name, List<Song> songs){
+    public Playlist(String name, List<Song> songs){
         this.id= id;
         this.name = name;
         this.songs = songs;
