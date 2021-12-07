@@ -63,14 +63,18 @@ public class SongDAO {
         }
     }
 
-    public void editSong(Song song)
+    public void editSong(int indexOfSelectedSong, Song editedSong)
     {
         try (Connection connection = dbConnector.getConnection())
         {
             String sql = "UPDATE Songs SET Title=?, Artist=?, Genre=?, Source=? WHERE SongID=?;";
             PreparedStatement preparedStatement =connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, song.getTitle());
+            preparedStatement.setString(1, editedSong.getTitle());
+            preparedStatement.setString(2, editedSong.getTitle());
+            preparedStatement.setString(3, editedSong.getGenre().toString());
+            preparedStatement.setString(4, editedSong.getSource());
+            preparedStatement.setInt(5, indexOfSelectedSong);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

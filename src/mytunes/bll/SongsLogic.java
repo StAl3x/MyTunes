@@ -27,8 +27,9 @@ public class SongsLogic {
         songDAO.addSong(song);
     }
 
-    public void editSong(Song song)
+    public void editSong(int IndexOfSelectedSong, Song editedSong)
     {
+        songDAO.editSong(IndexOfSelectedSong, editedSong);
     }
 
 }
