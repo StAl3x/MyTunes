@@ -1,38 +1,75 @@
 package mytunes.be;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gramophone {
-        private Media song;
     MediaPlayer mediaPlayer;
-        public Gramophone(Song song){
-            File f = new File(song.getSource());
-            this.song = new Media(f.toURI().toString());
+    private int songIndex;
+    private boolean isPlaying;
+    private List<Media> mediaToPlay = new ArrayList<>();
+    private List<Song> songsToPlay = new ArrayList<>();
+        public Gramophone(List<Song> songs){
+            songsToPlay = songs;
+            for(Song s: songs){
+                File f = new File(s.getSource());
+                mediaToPlay.add(new Media(f.toURI().toString()));
+            }
         }
-
+        //gui operations
+    //play handles play and stop at the same time
         public void play(){
-            mediaPlayer = new MediaPlayer(this.song);
-            mediaPlayer.play();
+            mediaPlayer = new MediaPlayer(mediaToPlay.get(songIndex));
+            if(!isPlaying) {
+                mediaPlayer.play();
+                isPlaying = true;
+                //auto play = media.getDuration
+            }
+            else{
+                mediaPlayer.stop();
+                isPlaying = false;
+            }
         }
 
-        public void stop(){
-            mediaPlayer.stop();
+
+        public void nextSong() {
+            if (songIndex == mediaToPlay.size())
+                songIndex = 0;
+            else
+                songIndex++;
+            play();
+            isPlaying = true;
         }
 
-        public Duration getTimeOfPause(){
-        return this.song.getDuration();
+        public void previousSong(){
+            if(songIndex == 0)
+                songIndex = mediaToPlay.size()-1;
+            else
+                songIndex--;
+            play();
+            isPlaying = true;
         }
+
 
 
         public void setVolume(double volumeValue){
             this.mediaPlayer.setVolume(volumeValue);
             System.out.println(mediaPlayer.getVolume());
         }
+
+        //additional methods
+        public String getSongInfo(){
+            return songsToPlay.get(songIndex).getTitle()+"\n"+ songsToPlay.get(songIndex).getArtist();
+        }
+        public String setPlayBtnValue(){
+            if(isPlaying)
+                return "Pause";
+            else
+                return "Play";
+    }
 
 
 

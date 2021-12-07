@@ -17,7 +17,7 @@ public class SongDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Song> getAllPlaylists() throws SQLException
+    public List<Song> getAllSongs() throws SQLException
     {
         ArrayList<Song> allSongs = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection())

@@ -11,6 +11,7 @@ import mytunes.be.Gramophone;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
+import mytunes.bll.MyTunesBusiness;
 import mytunes.gui.model.ListViewSongsModel;
 import mytunes.gui.model.TableViewPlaylistsModel;
 import mytunes.gui.model.TableViewSongsModel;
@@ -18,6 +19,7 @@ import mytunes.gui.view.NewEditDialog;
 import mytunes.gui.view.NewPlaylistDialog;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class MyTunesController implements Initializable {
@@ -37,10 +39,10 @@ public class MyTunesController implements Initializable {
 
     public ListView<Song> lstViewMiddle;
     private ListViewSongsModel lvSongsModel;
+    //MyTunesBusiness myTunesBusiness = new MyTunesBusiness();
 
-    public Label lblSongPlaying;
-    Gramophone player ;
-
+    public MyTunesController() throws SQLException {
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -260,103 +262,25 @@ public class MyTunesController implements Initializable {
     /*
         TOP PART
      */
-    @FXML
-    private Button btnPlay;
-    @FXML
-    private Slider sldrVolume;
-    @FXML
-    private boolean isPlaying = false;
-    private int songIndex = 0;
-    private List<Song> selectedPlaylist = new ArrayList<>();
-    private Song songToPlay;
+
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-        if (!lstViewMiddle.getSelectionModel().isEmpty())
-            selectedPlaylist = lstViewMiddle.getItems();
-
-        else
-            selectedPlaylist = tblViewRight.getItems();
-
-        songToPlay = selectedPlaylist.get(songIndex);
-        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
-
-
-        if (!isPlaying) {
-                player = new Gramophone(songToPlay);
-                btnPlay.setText("Pause");
-                player.play();
-                isPlaying = true;
-            }
-        else if (isPlaying) {
-                player.stop();
-                btnPlay.setText("Play");
-                isPlaying = false;
-            }
-
     }
-    // label not changing first time
-    //auto play, after time will get loaded from mp3 header
+
     public void handlePrevious(ActionEvent event) {
         System.out.println("Previous");
-        player.stop();
-        songToPlay = selectedPlaylist.get(songIndex);
-        if(songIndex == 0){
-            songIndex = selectedPlaylist.size()-1;
-            player = new Gramophone(selectedPlaylist.get(songIndex));
-        }
-
-        else{
-            songIndex --;
-            player = new Gramophone(selectedPlaylist.get(songIndex));
-        }
-        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
-        player.play();
-        btnPlay.setText("Pause");
-        isPlaying = true;
-
     }
 
     public void handleNext(ActionEvent event) {
-        System.out.println("Next");
-        songToPlay = selectedPlaylist.get(songIndex);
-        player.stop();
-        if(songIndex == selectedPlaylist.size()-1){
-            songIndex = 0;
-            player = new Gramophone(tblViewRight.getItems().get(songIndex));
-        }
-        else{
-            songIndex++;
-            player = new Gramophone(tblViewRight.getItems().get(songIndex));
-        }
-        lblSongPlaying.setText(songToPlay.getTitle() + "\n" + songToPlay.getArtist());
-        player.play();
-        btnPlay.setText("Pause");
-        isPlaying = true;
-
+        System.out.println("next");
     }
 
     public void handleVolume(MouseEvent mouseEvent) {
         System.out.println("Change of Volume");
-        //float  volume = (float) (1 - (Math.log(100 - sldrVolume.getValue()) / Math.log(100)));
-
-        this.player.setVolume(sldrVolume.getValue());
-        System.out.println("Slider value:" + sldrVolume.getValue());
     }
-    @FXML
-    private TextField txtFieldFilter;
+
     public void handleFilter(ActionEvent event) {
         System.out.println("Filter");
-        List<Song> filterList = new ArrayList<>();
-        String selection = txtFieldFilter.getText().toLowerCase();
-        tvSongsModel.getSongsList().removeAll();
-        for (Song s :tblViewRight.getItems()){
-            if(s.getArtist().toLowerCase().contains(selection) ||
-               s.getGenre().toString().toLowerCase().contains(selection) ||
-               s.getTitle().toLowerCase().contains(selection))
-                filterList.add(s);
-        }
-
-
 
     }
 
