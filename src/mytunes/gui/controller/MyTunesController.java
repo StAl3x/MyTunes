@@ -141,7 +141,7 @@ public class MyTunesController implements Initializable {
                 newSong.setSongID(selectedSong.getSongID());
                 lvSongsModel.addOneSongToListView(newSong);
                 selectedPlaylist.addSong(newSong);
-
+                lvSongsModel.addSongToPlaylist(newSong, selectedPlaylist);
             }
         }
     }
