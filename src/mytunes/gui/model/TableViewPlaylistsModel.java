@@ -17,7 +17,14 @@ public class TableViewPlaylistsModel {
         playlistLogic = new PlaylistLogic();
         playlistList = FXCollections.observableArrayList();
         playlistList.addAll(playlistLogic.getAllPlaylists());
+    }
 
+    private void seedPlaylists(List<Playlist> list)
+    {
+        for(Playlist p: list)
+        {
+            playlistLogic.seedPlaylist(p);
+        }
     }
 
     public void addPlaylist(Playlist playlist)

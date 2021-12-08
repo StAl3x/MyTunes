@@ -15,10 +15,11 @@ public class PlaylistConnectorDAO {
         this.dbConnector = new DBConnector();
     }
 
+    //Get next available position in the playlist for the song
     public int getNextAvailableIndex(Playlist playlist)
     {
         int playlistID = playlist.getPlaylistID();
-        int songIndex = -1;
+        int songIndex = 0;
         try(Connection connection = dbConnector.getConnection())
         {
             String sql = "SELECT * FROM PlaylistConnector WHERE SongIndex=(SELECT max(SongIndex) FROM PlaylistConnector WHERE PlaylistID=(?));";
@@ -40,6 +41,7 @@ public class PlaylistConnectorDAO {
         return songIndex;
     }
 
+    //Adds a row to the table containing the playlistID and the songID, along with an index indicating song position
     public void addSongToPlaylist(Song song, Playlist playlist)
     {
         int songID = song.getSongID();

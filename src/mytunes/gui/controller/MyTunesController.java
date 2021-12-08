@@ -68,11 +68,13 @@ public class MyTunesController implements Initializable {
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
 
 
-        Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
         List<Song> mySongs = new ArrayList<>();
         Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
         tblViewLeft.getItems().add(myPlaylist);
         tblViewRight.getItems().add(mySong);
+
+         */
 
     }
 

@@ -32,4 +32,9 @@ public class PlaylistLogic {
     public void deletePlaylist(Playlist playlist) {
         playlistDAO.deletePlaylist(playlist);
     }
+
+    public void seedPlaylist(Playlist playlist)
+    {
+        playlistDAO.seedPlaylist(playlist);
+    }
 }

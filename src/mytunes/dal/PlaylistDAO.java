@@ -94,15 +94,15 @@ public class PlaylistDAO
         }
     }
 
-    public void seedPlaylist ( Playlist playlist ) throws SQLException
+    public void seedPlaylist ( Playlist playlist )
     {
         try (Connection connection = dbConnector.getConnection())
         {
-            String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
+            String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY SongIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getPlaylistID());
             List<Song> playlistSongs = new ArrayList<>();
-            if(statement.execute(sql))
+            if(statement.execute())
             {
                 List<Song> allSongs = songsLogic.getAllSongs();
                 ResultSet resultSet = statement.getResultSet();
@@ -112,6 +112,8 @@ public class PlaylistDAO
                     playlist.addSong(allSongs.get(songId));
                 }
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
