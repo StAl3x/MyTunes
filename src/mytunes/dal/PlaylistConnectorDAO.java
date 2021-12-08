@@ -24,7 +24,7 @@ public class PlaylistConnectorDAO {
             String sql = "SELECT * FROM PlaylistConnector WHERE SongIndex=(SELECT max(SongIndex) FROM PlaylistConnector WHERE PlaylistID=(?));";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistID);
-            if(preparedStatement.execute(sql))
+            if(preparedStatement.execute())
             {
                 ResultSet resultSet = preparedStatement.getResultSet();
                 while(resultSet.next())
