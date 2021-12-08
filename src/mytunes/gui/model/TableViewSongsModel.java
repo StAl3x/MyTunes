@@ -33,5 +33,6 @@ public class TableViewSongsModel {
     public void deleteSong(Song song)
     {
         songsList.remove(song);
+        songsLogic.deleteSong(song);
     }
 }

@@ -30,4 +30,9 @@ public class SongsLogic {
         return songDAO.editSong(songID, editedSong);
     }
 
+    public void deleteSong(Song song)
+    {
+        songDAO.removeSong(song);
+    }
+
 }
