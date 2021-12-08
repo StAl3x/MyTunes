@@ -29,7 +29,6 @@ public class SongsLogic {
 
     public Song editSong(int songID, Song editedSong)
     {
-        System.out.println(songID);
         return songDAO.editSong(songID, editedSong);
     }
 
