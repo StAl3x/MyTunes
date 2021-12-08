@@ -28,7 +28,7 @@ public class SongDAO {
                 while(resultSet.next())
                 {
                     int id = resultSet.getInt("SongID");
-                    songID = id;
+                    songID = id +1;
                 }
             }
         }
@@ -57,6 +57,7 @@ public class SongDAO {
                     String genre = resultSet.getString("Genre");
                     String source = resultSet.getString("Source");
                     Song song = new Song(title, artist,  SongGenre.valueOf(genre), source);
+                    song.setSongID(id);
                     allSongs.add(song);
 
                 }
@@ -109,6 +110,7 @@ public class SongDAO {
             preparedStatement.setString(3, editedSong.getGenre().toString());
             preparedStatement.setString(4, source);
             preparedStatement.setInt(5, songID);
+            preparedStatement.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
