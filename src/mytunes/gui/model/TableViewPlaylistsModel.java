@@ -3,6 +3,7 @@ package mytunes.gui.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.bll.PlaylistLogic;
 
 public class TableViewPlaylistsModel {
@@ -28,7 +29,8 @@ public class TableViewPlaylistsModel {
     }
 
     public void edit(Playlist selectedPlaylist, Playlist editedPlaylist){
-        playlistList.set(playlistList.indexOf(selectedPlaylist), editedPlaylist);
+        Playlist playlist = playlistLogic.editPlaylist(selectedPlaylist.getPlaylistID(), editedPlaylist);
+        playlistList.set(playlistList.indexOf(selectedPlaylist), playlist);
     }
 
 

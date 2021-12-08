@@ -23,4 +23,9 @@ public class PlaylistLogic {
         String title = playlist.getName();
         return playlistDAO.addPlaylist(title);
     }
+
+    public Playlist editPlaylist(int playlistID, Playlist editedPlaylist)
+    {
+        return playlistDAO.editPlaylist(playlistID, editedPlaylist);
+    }
 }

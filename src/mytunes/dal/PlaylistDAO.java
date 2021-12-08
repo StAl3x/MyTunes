@@ -133,4 +133,23 @@ public class PlaylistDAO
         }
     }
 
+    public Playlist editPlaylist(int playlistID, Playlist editedPlaylist)
+    {
+        String title = editedPlaylist.getName();
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql = "UPDATE Playlists SET Title=? WHERE PlaylistID=?;";
+            PreparedStatement preparedStatement =connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, title);
+            preparedStatement.setInt(2, playlistID);
+            preparedStatement.execute();
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        Playlist newPlaylist = new Playlist(title);
+        newPlaylist.setPlaylistID(playlistID);
+        return newPlaylist;
+    }
 }
