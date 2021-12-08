@@ -135,10 +135,14 @@ public class MyTunesController implements Initializable {
         System.out.println("To Playlist");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
-        if(selectedSong != null) {
-            Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
-            lvSongsModel.addOneSongToListView(newSong);
-            selectedPlaylist.addSong(newSong);
+        if(selectedPlaylist !=null) {
+            if (selectedSong != null) {
+                Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
+                newSong.setSongID(selectedSong.getSongID());
+                lvSongsModel.addOneSongToListView(newSong);
+                selectedPlaylist.addSong(newSong);
+
+            }
         }
     }
 

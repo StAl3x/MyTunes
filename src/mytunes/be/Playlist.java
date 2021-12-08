@@ -28,6 +28,11 @@ public class Playlist {
         songs.add(newSong);
     }
 
+    public void addSongList(List<Song> songList)
+    {
+        songs.addAll(songList);
+    }
+
     public String getName(){
         return this.name;
     }
