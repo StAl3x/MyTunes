@@ -1,5 +1,6 @@
 package mytunes.dal;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.SongsLogic;
@@ -16,7 +17,31 @@ public class PlaylistDAO
     {
         dbConnector = new DBConnector();
     }
-    public List<Playlist> getAllPlaylists() throws SQLException
+
+    public int getNextAvailableID()
+    {
+        int playlistID = -1;
+        try(Connection connection = dbConnector.getConnection())
+        {
+            String sql = "SELECT * FROM Playlists WHERE PlaylistID=(SELECT max(PlaylistID) FROM Playlists);";
+            Statement statement = connection.createStatement();
+            if(statement.execute(sql))
+            {
+                ResultSet resultSet = statement.getResultSet();
+                while(resultSet.next())
+                {
+                    int id = resultSet.getInt("PlaylistID");
+                    playlistID = id +1;
+                }
+            }
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return playlistID;
+    }
+
+    public List<Playlist> getAllPlaylists()
     {
         ArrayList<Playlist> allPlaylists = new ArrayList<>();
         try(Connection connection = dbConnector.getConnection())
@@ -35,10 +60,12 @@ public class PlaylistDAO
                     allPlaylists.add(playlist);
                 }
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return allPlaylists;
     }
-    public void addPlaylist(String title) throws SQLException
+    public Playlist addPlaylist(String title)
     {
         try (Connection connection = dbConnector.getConnection())
         {
@@ -46,8 +73,14 @@ public class PlaylistDAO
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,title);
             statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        Playlist playlist = new Playlist(title);
+        playlist.setPlaylistID(getNextAvailableID());
+        return playlist;
     }
+
     public void addSongToPlaylistConnector( int songId , int playlistId , int songIndex ) throws SQLException
     {
         try (Connection connection = dbConnector.getConnection())
