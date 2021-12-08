@@ -152,4 +152,17 @@ public class PlaylistDAO
         newPlaylist.setPlaylistID(playlistID);
         return newPlaylist;
     }
+
+    public void deletePlaylist(Playlist playlist) {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql2 = "DELETE FROM Playlists WHERE PlaylistID = ?";
+            PreparedStatement preparedStatement2 =connection.prepareStatement(sql2);
+            preparedStatement2.setInt(1, playlist.getPlaylistID());
+            preparedStatement2.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

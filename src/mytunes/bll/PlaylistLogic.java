@@ -28,4 +28,8 @@ public class PlaylistLogic {
     {
         return playlistDAO.editPlaylist(playlistID, editedPlaylist);
     }
+
+    public void deletePlaylist(Playlist playlist) {
+        playlistDAO.deletePlaylist(playlist);
+    }
 }
