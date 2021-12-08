@@ -17,8 +17,6 @@ public class Playlist {
         this.songs = songs;
     }
 
-
-
     public void removeSong(Song song){
         songs.remove(song);
     }
@@ -47,4 +45,5 @@ public class Playlist {
         public int getPlaylistID() {
         return playlistID;
     }
+
 }

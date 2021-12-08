@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.PlaylistLogic;
-
 import java.util.List;
 
 public class TableViewPlaylistsModel {
@@ -18,6 +17,7 @@ public class TableViewPlaylistsModel {
         playlistLogic = new PlaylistLogic();
         playlistList = FXCollections.observableArrayList();
         playlistList.addAll(playlistLogic.getAllPlaylists());
+
     }
 
     public void addPlaylist(Playlist playlist)
@@ -43,3 +43,4 @@ public class TableViewPlaylistsModel {
         playlistLogic.deletePlaylist(playlist);
     }
 }
+
