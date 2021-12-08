@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
-    private int id;
+    private int playlistID;
     private String name;
     private List<Song> songs = new ArrayList<>();
 
-    public Playlist(String name)
-    {
-        this.name = name;
-    }
+
+    public Playlist(String name){this.name=name;}
 
     public Playlist(String name, List<Song> songs){
-        this.id= id;
+        this.playlistID= playlistID;
         this.name = name;
         this.songs = songs;
     }
+
+
 
     public void removeSong(Song song){
         songs.remove(song);
@@ -36,10 +36,10 @@ public class Playlist {
         return this.songs;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPlaylistID(int id) {
+        this.playlistID = id;
     }
-        public int getId() {
-        return id;
+        public int getPlaylistID() {
+        return playlistID;
     }
 }

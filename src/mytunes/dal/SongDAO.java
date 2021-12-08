@@ -1,6 +1,5 @@
 package mytunes.dal;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
 
@@ -118,5 +117,23 @@ public class SongDAO {
         Song newSong = new Song(title, artist, genre, source);
         newSong.setSongID(songID);
         return newSong;
+    }
+
+    public void removeSong(Song song)
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql1 = "DELETE FROM PlaylistConnector WHERE SongID = ?";
+            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
+            preparedStatement1.setInt(1, song.getSongID());
+            preparedStatement1.execute();
+            String sql2 = "DELETE FROM Songs WHERE SongID = ?";
+            PreparedStatement preparedStatement2 =connection.prepareStatement(sql2);
+            preparedStatement2.setInt(1, song.getSongID());
+            preparedStatement2.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
