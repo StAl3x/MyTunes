@@ -19,7 +19,7 @@ public class TableViewPlaylistsModel {
         playlistList.addAll(playlistLogic.getAllPlaylists());
     }
 
-    private void seedPlaylists(List<Playlist> list)
+    public void seedPlaylists(List<Playlist> list)
     {
         for(Playlist p: list)
         {

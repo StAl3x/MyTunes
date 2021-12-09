@@ -47,6 +47,7 @@ public class MyTunesController implements Initializable {
         tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
         lvSongsModel = new ListViewSongsModel();
         lstViewMiddle.setItems(lvSongsModel.getSongs());
+        tvPlaylistsModel.seedPlaylists(tvPlaylistsModel.getPlaylistList());
         initTables();
 
     }

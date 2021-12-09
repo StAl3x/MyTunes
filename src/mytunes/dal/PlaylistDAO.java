@@ -16,6 +16,7 @@ public class PlaylistDAO
     public PlaylistDAO()
     {
         dbConnector = new DBConnector();
+        songsLogic = new SongsLogic();
     }
 
     public int getNextAvailableID()
@@ -81,35 +82,29 @@ public class PlaylistDAO
         return playlist;
     }
 
-    public void addSongToPlaylistConnector( int songId , int playlistId , int songIndex ) throws SQLException
-    {
-        try (Connection connection = dbConnector.getConnection())
-        {
-            String sql = "INSERT INTO PlaylistConnector(SongId,PlaylistId, SongIndex) VALUES ( ? , ? , ? )";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1,songId);
-            statement.setInt(2,playlistId);
-            statement.setInt(3,songIndex);
-            statement.execute();
-        }
-    }
-
     public void seedPlaylist ( Playlist playlist )
     {
         try (Connection connection = dbConnector.getConnection())
         {
+            List<Song> allSongs = songsLogic.getAllSongs();
             String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY SongIndex ASC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, playlist.getPlaylistID());
-            List<Song> playlistSongs = new ArrayList<>();
             if(statement.execute())
             {
-                List<Song> allSongs = songsLogic.getAllSongs();
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {
                     int songId = resultSet.getInt("SongID");
-                    playlist.addSong(allSongs.get(songId));
+                    for(Song song : allSongs)
+                    {
+                        if(song.getSongID() == songId)
+                        {
+                            Song newSong = new Song (song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
+                            newSong.setSongID(songId);
+                            playlist.addSong(newSong);
+                        }
+                    }
                 }
             }
         } catch (SQLException throwables) {
