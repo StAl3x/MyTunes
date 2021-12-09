@@ -1,5 +1,6 @@
 package mytunes.gui.controller;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -46,7 +47,9 @@ public class MyTunesController implements Initializable {
         tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
         lvSongsModel = new ListViewSongsModel();
         lstViewMiddle.setItems(lvSongsModel.getSongs());
+        tvPlaylistsModel.seedPlaylists(tvPlaylistsModel.getPlaylistList());
         initTables();
+
     }
 
     /*
@@ -65,23 +68,15 @@ public class MyTunesController implements Initializable {
         //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
 
-        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
 
-        Playlist myPlaylist = new Playlist("My sad playlist");
-        myPlaylist.addSong(mySong);
-        myPlaylist.addSong(myMadSong);
-        myPlaylist.addSong(mySmartSong);
-        myPlaylist.addSong(myFatSong);
-        myPlaylist.addSong(myGladSong);
+        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
+        List<Song> mySongs = new ArrayList<>();
+        Playlist myPlaylist = new Playlist("My sad playlist", mySongs);
         tblViewLeft.getItems().add(myPlaylist);
         tblViewRight.getItems().add(mySong);
 
          */
+
     }
 
     /*
@@ -122,6 +117,7 @@ public class MyTunesController implements Initializable {
         }
     }
 
+    //Deletes the selected song on the TableView
     public void handleDeleteSong(ActionEvent event) {
         System.out.println("Delete Song");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
@@ -135,10 +131,14 @@ public class MyTunesController implements Initializable {
         System.out.println("To Playlist");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
-        if(selectedSong != null) {
-            Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
-            lvSongsModel.addOneSongToListView(newSong);
-            selectedPlaylist.addSong(newSong);
+        if(selectedPlaylist !=null) {
+            if (selectedSong != null) {
+                Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
+                newSong.setSongID(selectedSong.getSongID());
+                lvSongsModel.addOneSongToListView(newSong);
+                selectedPlaylist.addSong(newSong);
+                lvSongsModel.addSongToPlaylist(newSong, selectedPlaylist);
+            }
         }
     }
 
@@ -178,12 +178,15 @@ public class MyTunesController implements Initializable {
         {
             tvPlaylistsModel.deletePlaylist(selectedPlaylist);
         }
+
         lvSongsModel.deleteSongsFromListView();
+
     }
 
     /*
         MIDDLE PART
      */
+
 
     public void handleLeftTableClicked(MouseEvent mouseEvent) {
         Playlist playlist = tblViewLeft.getSelectionModel().getSelectedItem();
@@ -280,7 +283,4 @@ public class MyTunesController implements Initializable {
         System.out.println("Filter");
 
     }
-
-
-
 }

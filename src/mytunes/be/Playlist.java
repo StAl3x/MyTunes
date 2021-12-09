@@ -17,8 +17,6 @@ public class Playlist {
         this.songs = songs;
     }
 
-
-
     public void removeSong(Song song){
         songs.remove(song);
     }
@@ -26,6 +24,11 @@ public class Playlist {
     public void addSong(Song song){
         Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
         songs.add(newSong);
+    }
+
+    public void addSongList(List<Song> songList)
+    {
+        songs.addAll(songList);
     }
 
     public String getName(){
@@ -42,4 +45,5 @@ public class Playlist {
         public int getPlaylistID() {
         return playlistID;
     }
+
 }

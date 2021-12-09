@@ -25,9 +25,14 @@ public class SongsLogic {
         return songDAO.addSong(song);
     }
 
-    public void editSong(int IndexOfSelectedSong, Song editedSong)
+    public Song editSong(int songID, Song editedSong)
     {
-        songDAO.editSong(IndexOfSelectedSong, editedSong);
+        return songDAO.editSong(songID, editedSong);
+    }
+
+    public void deleteSong(Song song)
+    {
+        songDAO.removeSong(song);
     }
 
 }

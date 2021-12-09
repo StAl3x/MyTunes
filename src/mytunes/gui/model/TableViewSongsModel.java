@@ -17,7 +17,8 @@ public class TableViewSongsModel {
     }
 
     public void addSong(Song song){
-        songsList.add(songsLogic.newSong(song));
+        Song newSong = songsLogic.newSong(song);
+        songsList.add(newSong);
     }
 
     public ObservableList<Song> getSongsList(){
@@ -25,12 +26,14 @@ public class TableViewSongsModel {
     }
 
     public void edit(Song selectedSong, Song editedSong){
-        songsList.set(songsList.indexOf(selectedSong), editedSong);
-        songsLogic.editSong(songsList.indexOf(selectedSong), editedSong);
+        Song song = songsLogic.editSong(selectedSong.getSongID(), editedSong);
+        songsList.set(songsList.indexOf(selectedSong), song);
     }
 
     public void deleteSong(Song song)
     {
         songsList.remove(song);
+        songsLogic.deleteSong(song);
     }
+
 }
