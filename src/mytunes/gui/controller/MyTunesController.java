@@ -106,7 +106,7 @@ public class MyTunesController implements Initializable {
         Get selected Item (Song) from Right TableView,
         if Song is selected, open a Dialog & fill its fields with the Song properties
         (=> nice UX - they don't have to retype everything everytime)
-        edit the song when APPLY is clicked
+        edits the Song when APPLY is clicked
      */
     public void handleEditSong(ActionEvent event) {
         System.out.println("Edit Song");
@@ -116,6 +116,7 @@ public class MyTunesController implements Initializable {
             dialog.setFields(selectedSong);
             Optional<Song> result = dialog.showAndWait();
             result.ifPresent(response -> {
+                response.setSongID(selectedSong.getSongID());
                 tvSongsModel.edit(selectedSong, response);
                 System.out.println(response);
             });
@@ -136,7 +137,7 @@ public class MyTunesController implements Initializable {
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedSong != null) {
-            Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getSource());
+            Song newSong = new Song(selectedSong.getTitle(), selectedSong.getArtist(), selectedSong.getGenre(), selectedSong.getTime(), selectedSong.getSource());
             lvSongsModel.addOneSongToListView(newSong);
             selectedPlaylist.addSong(newSong);
         }

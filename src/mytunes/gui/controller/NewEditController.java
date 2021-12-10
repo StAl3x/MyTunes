@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import mytunes.be.Song;
 import mytunes.be.SongGenre;
 import mytunes.gui.model.ChoiceBoxGenresModel;
 
@@ -20,6 +21,7 @@ public class NewEditController implements Initializable {
     public TextField txtFieldArtist;
     public TextField txtFieldTime;
     public TextField txtFieldFile;
+
     public ChoiceBox<SongGenre> choiceBoxGenre;
     private ChoiceBoxGenresModel choiceModel;
 
@@ -42,23 +44,31 @@ public class NewEditController implements Initializable {
         return this.choiceBoxGenre.getValue();
     }
 
-    public String getPath(){
+    public String getTime() {
+        return this.txtFieldTime.getText();
+    }
+
+    public String getPath() {
         return this.txtFieldFile.getText();
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.txtFieldTitle.setText(title);
     }
 
-    public void setArtist(String artist){
+    public void setArtist(String artist) {
         this.txtFieldArtist.setText(artist);
     }
 
-    public void setGenre(SongGenre genre){
+    public void setGenre(SongGenre genre) {
         this.choiceBoxGenre.setValue(genre);
     }
 
-    public void setPath(String path){
+    public void setTime(String time) {
+        this.txtFieldTime.setText(time);
+    }
+
+    public void setSource(String path) {
         this.txtFieldFile.setText(path);
     }
 

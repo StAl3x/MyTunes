@@ -7,13 +7,14 @@ public class Song {
     private String title;
     private String artist;
     private SongGenre genre;
-    private Time time;
+    private String time;
     private String source;
 
-    public Song(String title, String artist, SongGenre genre, String source) {
+    public Song(String title, String artist, SongGenre genre, String time, String source) {
         this.title = title;
         this.artist = artist;
         this.genre = genre;
+        this.time = time;
         this.source = source;
     }
 
@@ -30,7 +31,7 @@ public class Song {
     }
 
     public String getTime() {
-        return this.time.toString();
+        return this.time;
     }
 
     public String getSource() {
@@ -43,8 +44,7 @@ public class Song {
         this.songID = id;
     }
 
-
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -66,10 +66,12 @@ public class Song {
 
     @Override
     public String toString() {
-        return "%s: %s - %s\n%s".formatted(
+        return "%d\n%s: %s\n%s\t%s\n%s".formatted(
+                this.songID,
                 this.artist,
                 this.title,
-                this.genre,
+                this.genre.toString(),
+                this.time,
                 this.source
         );
     }

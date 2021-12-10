@@ -24,8 +24,7 @@ public class Playlist {
     }
 
     public void addSong(Song song){
-        Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
-        songs.add(newSong);
+        songs.add(song);
     }
 
     public String getName(){

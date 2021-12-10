@@ -23,7 +23,7 @@ public class NewEditDialog extends Dialog<Song>{
             this.setDialogPane(dp);
             this.setResultConverter(buttonType -> {
                 if(buttonType == ButtonType.APPLY){
-                    return new Song(controller.getTitle(), controller.getArtist(), controller.getGenre(), controller.getPath());
+                    return new Song(controller.getTitle(), controller.getArtist(), controller.getGenre(), controller.getTime(), controller.getPath());
                 }
                 return null;
             });
@@ -34,9 +34,10 @@ public class NewEditDialog extends Dialog<Song>{
     }
 
     public void setFields(Song song){
-        controller.setArtist(song.getArtist());
         controller.setTitle(song.getTitle());
+        controller.setArtist(song.getArtist());
         controller.setGenre(song.getGenre());
-        controller.setPath(song.getSource());
+        controller.setTime(song.getTime());
+        controller.setSource(song.getSource());
     }
 }

@@ -8,26 +8,25 @@ import java.util.List;
 public class SongsLogic {
 
     private SongDAO songDAO;
-    private List<Song> allSongs;
 
-    public SongsLogic(){
+    public SongsLogic() {
         this.songDAO = new SongDAO();
-        this.allSongs = songDAO.getAllSongs();
     }
 
-    public List<Song> getAllSongs()
-    {
-        return allSongs;
+    public List<Song> getAll() {
+        return songDAO.getAll();
     }
 
-    public Song newSong (Song song)
-    {
-        return songDAO.addSong(song);
+    public void add(Song song) {
+        int id = songDAO.add(song);
+        song.setSongID(id);
     }
 
-    public void editSong(int IndexOfSelectedSong, Song editedSong)
-    {
-        songDAO.editSong(IndexOfSelectedSong, editedSong);
+    public void update(Song updatedSong) {
+        songDAO.update(updatedSong);
     }
 
+    public void delete(Song song){
+        songDAO.delete(song);
+    }
 }

@@ -11,26 +11,31 @@ public class TableViewSongsModel {
     SongsLogic songsLogic;
 
     public TableViewSongsModel(){
-        songsLogic = new SongsLogic();
         songsList = FXCollections.observableArrayList();
-        songsList.addAll(songsLogic.getAllSongs());
+        songsLogic = new SongsLogic();
+        songsList.addAll(songsLogic.getAll());
     }
 
     public void addSong(Song song){
-        songsList.add(songsLogic.newSong(song));
+        songsLogic.add(song);
+        songsList.add(song);
     }
 
     public ObservableList<Song> getSongsList(){
         return this.songsList;
     }
 
-    public void edit(Song selectedSong, Song editedSong){
-        songsList.set(songsList.indexOf(selectedSong), editedSong);
+    public void edit(Song uneditedSong, Song editedSong){
+        songsLogic.update(editedSong);
+        songsList.set(songsList.indexOf(uneditedSong), editedSong);
+        /*int id = songsLogic.requestID(uneditedSong);
         songsLogic.editSong(songsList.indexOf(selectedSong), editedSong);
+        songsList.set(songsList.indexOf(selectedSong), editedSong);*/
     }
 
     public void deleteSong(Song song)
     {
+        songsLogic.delete(song);
         songsList.remove(song);
     }
 }

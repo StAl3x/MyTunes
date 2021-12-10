@@ -71,7 +71,7 @@ public class PlaylistDAO
             List<Song> playlistSongs = new ArrayList<>();
             if(statement.execute(sql))
             {
-                List<Song> allSongs = songsLogic.getAllSongs();
+                List<Song> allSongs = songsLogic.getAll();
                 ResultSet resultSet = statement.getResultSet();
                 while (resultSet.next())
                 {

@@ -13,6 +13,7 @@ public enum SongGenre {
     HipHop("Hip Hop");
 
     String name;
+
     SongGenre(String name){
         this.name = name;
     }
