@@ -21,7 +21,11 @@ public class Playlist {
     }
 
     public void addSong(Song song){
+        int songID = song.getSongID();
+        int songIndex = song.getIndex();
         Song newSong = new Song(song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
+        newSong.setSongID(songID);
+        newSong.setIndex(songIndex);
         songs.add(newSong);
     }
 
