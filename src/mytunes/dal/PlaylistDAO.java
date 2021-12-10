@@ -96,35 +96,19 @@ public class PlaylistDAO
                 while (resultSet.next())
                 {
                     int songId = resultSet.getInt("SongID");
+                    int index = resultSet.getInt("SongIndex");
                     for(Song song : allSongs)
                     {
                         if(song.getSongID() == songId)
                         {
                             Song newSong = new Song (song.getTitle(), song.getArtist(), song.getGenre(), song.getSource());
                             newSong.setSongID(songId);
+                            newSong.setIndex(index);
                             playlist.addSong(newSong);
                         }
                     }
                 }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void removeSong(Playlist playlist)
-    {
-        try (Connection connection = dbConnector.getConnection())
-        {
-            String sql1 = "DELETE FROM PlaylistConnector WHERE PlaylistID = ?";
-            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
-            preparedStatement1.setInt(1, playlist.getPlaylistID());
-            preparedStatement1.execute();
-            String sql2 = "DELETE FROM Playlists WHERE PlaylistID = ?";
-            PreparedStatement preparedStatement2 =connection.prepareStatement(sql2);
-            preparedStatement2.setInt(1, playlist.getPlaylistID());
-            preparedStatement2.execute();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

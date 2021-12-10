@@ -49,7 +49,6 @@ public class MyTunesController implements Initializable {
         lstViewMiddle.setItems(lvSongsModel.getSongs());
         tvPlaylistsModel.seedPlaylists(tvPlaylistsModel.getPlaylistList());
         initTables();
-
     }
 
     /*
@@ -178,9 +177,7 @@ public class MyTunesController implements Initializable {
         {
             tvPlaylistsModel.deletePlaylist(selectedPlaylist);
         }
-
         lvSongsModel.deleteSongsFromListView();
-
     }
 
     /*
@@ -195,6 +192,9 @@ public class MyTunesController implements Initializable {
             List<Song> selectedPlaylistSongs = tblViewLeft.getSelectionModel().getSelectedItem().getSongs();
             lvSongsModel.deleteSongsFromListView();
             lvSongsModel.addSongsToListView(selectedPlaylistSongs);
+            for(Song s : selectedPlaylistSongs) {
+                System.out.println(s.getIndex() + " " + s.getSongID());
+            }
         }
     }
 
@@ -249,6 +249,7 @@ public class MyTunesController implements Initializable {
         List<Song> songList = lvSongsModel.getSongs();
         if(tblViewLeft.getSelectionModel().getSelectedItem() != null) {
             if (selectedSong != null) {
+                lvSongsModel.removeSongFromPlaylist(selectedPlaylist, selectedSong);
                 selectedPlaylist.removeSong(selectedSong);
                 songList.remove(selectedSong);
             }

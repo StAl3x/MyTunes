@@ -30,6 +30,7 @@ public class ListViewSongsModel {
 
     public void deleteSongsFromListView() {
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
+
     }
 
     public void addOneSongToListView(Song song) {
@@ -38,6 +39,11 @@ public class ListViewSongsModel {
 
     public void addSongToPlaylist(Song song, Playlist playlist) {
         playlistConnectorLogic.addSongToPlaylist(song, playlist);
+    }
+
+    public void removeSongFromPlaylist(Playlist playlist, Song song)
+    {
+        playlistConnectorLogic.removeSong(playlist, song);
     }
 }
 

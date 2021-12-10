@@ -18,4 +18,9 @@ public class PlaylistConnectorLogic {
         playlistConnectorDAO.addSongToPlaylist(song, playlist);
     }
 
+    public void removeSong(Playlist playlist, Song song)
+    {
+        playlistConnectorDAO.removeSong(playlist, song);
+    }
+
 }

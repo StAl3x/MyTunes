@@ -50,7 +50,7 @@ public class PlaylistConnectorDAO {
 
         try (Connection connection = dbConnector.getConnection())
         {
-            String sql = "INSERT INTO PlaylistConnector(PlaylistId, SongId, SongIndex) VALUES ( ? , ? , ? )";
+            String sql = "INSERT INTO PlaylistConnector(PlaylistId, SongId, SongIndex) VALUES ( ? , ? , ? );";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1,playlistID);
             statement.setInt(2,songID);
@@ -60,6 +60,24 @@ public class PlaylistConnectorDAO {
             throwables.printStackTrace();
         }
 
+    }
+
+    public void removeSong(Playlist playlist, Song song)
+    {
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql1 = "DELETE FROM PlaylistConnector WHERE PlaylistID = ? AND SongID = ? AND SongIndex = ?;";
+            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
+            preparedStatement1.setInt(1, playlist.getPlaylistID());
+            preparedStatement1.setInt(2, song.getSongID());
+            preparedStatement1.setInt(3, song.getIndex());
+            preparedStatement1.execute();
+            System.out.println(playlist.getPlaylistID());
+            System.out.println(song.getSongID());
+            System.out.println(song.getIndex());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 }

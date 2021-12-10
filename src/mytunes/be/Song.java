@@ -9,6 +9,7 @@ public class Song {
     private SongGenre genre;
     private Time time;
     private String source;
+    private int index;
 
     public Song(String title, String artist, SongGenre genre, String source) {
         this.title = title;
@@ -39,6 +40,8 @@ public class Song {
 
     public int getSongID(){return this.songID; }
 
+    public int getIndex(){return this.index;}
+
     public void setSongID(int id) {
         this.songID = id;
     }
@@ -63,6 +66,8 @@ public class Song {
     public void setGenre(SongGenre genre){
         this.genre = genre;
     }
+
+    public void setIndex(int index){ this.index = index; }
 
     @Override
     public String toString() {
