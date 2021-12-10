@@ -35,10 +35,10 @@ public class Playlist {
         return this.songs;
     }
 
-    public void setPlaylistID(int id) {
+    public void setID(int id) {
         this.playlistID = id;
     }
-        public int getPlaylistID() {
+        public int getID() {
         return playlistID;
     }
 }

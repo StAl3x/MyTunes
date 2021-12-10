@@ -5,18 +5,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import mytunes.be.Song;
-import mytunes.gui.controller.NewEditController;
+import mytunes.gui.controller.SongDialogController;
 
 import java.io.IOException;
 
-public class NewEditDialog extends Dialog<Song>{
+public class SongDialog extends Dialog<Song>{
 
-    private NewEditController controller;
+    private SongDialogController controller;
 
-    public NewEditDialog(){
+    public SongDialog(){
         super();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewEditView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SongDialogView.fxml"));
             DialogPane dp = loader.load();
             controller = loader.getController();
             this.setTitle("Add/Edit Song");

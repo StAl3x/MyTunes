@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class NewEditController implements Initializable {
+public class SongDialogController implements Initializable {
 
     public TextField txtFieldTitle;
     public TextField txtFieldArtist;

@@ -7,12 +7,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.be.SongGenre;
 import mytunes.gui.model.ListViewSongsModel;
 import mytunes.gui.model.TableViewPlaylistsModel;
 import mytunes.gui.model.TableViewSongsModel;
-import mytunes.gui.view.NewEditDialog;
-import mytunes.gui.view.NewPlaylistDialog;
+import mytunes.gui.view.SongDialog;
+import mytunes.gui.view.PlaylistDialog;
 
 import java.net.URL;
 import java.util.*;
@@ -37,13 +36,14 @@ public class MyTunesController implements Initializable {
 
     public Label lblSongPlaying;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tvSongsModel = new TableViewSongsModel();
         tblViewRight.setItems(tvSongsModel.getSongsList());
+
         tvPlaylistsModel = new TableViewPlaylistsModel();
         tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+
         lvSongsModel = new ListViewSongsModel();
         lstViewMiddle.setItems(lvSongsModel.getSongs());
         initTables();
@@ -58,30 +58,12 @@ public class MyTunesController implements Initializable {
         tblColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tblColumnArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
         tblColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        //tblColumnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        tblColumnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         //left side
         tblColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
         //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
-
-        /*Song mySong = new Song("PepoSad", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myNewSong = new Song("PepoHappy", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myMadSong = new Song("PepoSmash", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myGladSong = new Song("PepoSmile", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song myFatSong = new Song("PepoEat", "Lil Pepo", SongGenre.Rap, "nosauce");
-        Song mySmartSong = new Song("PepoStudy", "Lil Pepo", SongGenre.Rap, "nosauce");
-
-        Playlist myPlaylist = new Playlist("My sad playlist");
-        myPlaylist.addSong(mySong);
-        myPlaylist.addSong(myMadSong);
-        myPlaylist.addSong(mySmartSong);
-        myPlaylist.addSong(myFatSong);
-        myPlaylist.addSong(myGladSong);
-        tblViewLeft.getItems().add(myPlaylist);
-        tblViewRight.getItems().add(mySong);
-
-         */
     }
 
     /*
@@ -93,12 +75,10 @@ public class MyTunesController implements Initializable {
         adds the Song when APPLY is clicked
      */
     public void handleNewSong(ActionEvent event) {
-        System.out.println("New Song");
-        NewEditDialog dialog = new NewEditDialog();
+        SongDialog dialog = new SongDialog();
         Optional<Song> result = dialog.showAndWait();
         result.ifPresent(response -> {
             tvSongsModel.addSong(response);
-            System.out.println(response);
         });
     }
 
@@ -109,22 +89,19 @@ public class MyTunesController implements Initializable {
         edits the Song when APPLY is clicked
      */
     public void handleEditSong(ActionEvent event) {
-        System.out.println("Edit Song");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         if(selectedSong != null){
-            NewEditDialog dialog = new NewEditDialog();
+            SongDialog dialog = new SongDialog();
             dialog.setFields(selectedSong);
             Optional<Song> result = dialog.showAndWait();
             result.ifPresent(response -> {
-                response.setSongID(selectedSong.getSongID());
+                response.setID(selectedSong.getID());
                 tvSongsModel.edit(selectedSong, response);
-                System.out.println(response);
             });
         }
     }
 
     public void handleDeleteSong(ActionEvent event) {
-        System.out.println("Delete Song");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         if(selectedSong != null)
         {
@@ -147,33 +124,29 @@ public class MyTunesController implements Initializable {
         LEFT SIDE
      */
     public void handleNewPlaylist(ActionEvent event) {
-        System.out.println("New Playlist");
-        NewPlaylistDialog dialog = new NewPlaylistDialog();
+        PlaylistDialog dialog = new PlaylistDialog();
         Optional<Playlist> result = dialog.showAndWait();
         result.ifPresent(response -> {
             tvPlaylistsModel.addPlaylist(response);
-            System.out.println(response);
         });
     }
 
 
     public void handleEditPlaylist(ActionEvent event) {
-        System.out.println("Edit Playlist");
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null){
-            NewPlaylistDialog dialog = new NewPlaylistDialog();
+            PlaylistDialog dialog = new PlaylistDialog();
             dialog.setFields(selectedPlaylist);
             Optional<Playlist> result = dialog.showAndWait();
             result.ifPresent(response -> {
+                response.setID(selectedPlaylist.getID());
                 tvPlaylistsModel.edit(selectedPlaylist, response);
-                System.out.println(response);
             });
         }
 
     }
 
     public void handleDeletePlaylist(ActionEvent event) {
-        System.out.println("Delete Playlist");
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null)
         {

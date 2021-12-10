@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<DialogPane expanded="true" prefHeight="277.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.NewEditController">
+<DialogPane expanded="true" prefHeight="277.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mytunes.gui.controller.SongDialogController">
    <content>
       <GridPane prefHeight="221.0" prefWidth="246.0">
         <columnConstraints>

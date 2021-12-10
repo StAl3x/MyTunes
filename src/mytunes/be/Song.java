@@ -38,9 +38,9 @@ public class Song {
         return this.source;
     }
 
-    public int getSongID(){return this.songID; }
+    public int getID(){return this.songID; }
 
-    public void setSongID(int id) {
+    public void setID(int id) {
         this.songID = id;
     }
 

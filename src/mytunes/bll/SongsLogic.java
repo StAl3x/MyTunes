@@ -19,14 +19,14 @@ public class SongsLogic {
 
     public void add(Song song) {
         int id = songDAO.add(song);
-        song.setSongID(id);
+        song.setID(id);
     }
 
     public void update(Song updatedSong) {
         songDAO.update(updatedSong);
     }
 
-    public void delete(Song song){
+    public void delete(Song song) {
         songDAO.delete(song);
     }
 }

@@ -6,20 +6,19 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
-import mytunes.gui.controller.NewPlaylistController;
+import mytunes.gui.controller.PlaylistDialogController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-public class NewPlaylistDialog extends Dialog<Playlist>{
+public class PlaylistDialog extends Dialog<Playlist>{
 
-    private NewPlaylistController controller;
+    private PlaylistDialogController controller;
 
-    public NewPlaylistDialog(){
+    public PlaylistDialog(){
         super();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewPlaylistView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PlaylistDialogView.fxml"));
             DialogPane dp = loader.load();
             controller = loader.getController();
             this.setTitle("Add/Edit Playlist");

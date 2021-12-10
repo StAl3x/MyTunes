@@ -8,16 +8,14 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class NewPlaylistController{
+public class PlaylistDialogController {
     public TextField txtFieldPlaylistName;
 
-    public String getPlaylistName()
-    {
+    public String getPlaylistName() {
         return this.txtFieldPlaylistName.getText();
     }
 
-    public void setPlaylistName(String name){this.txtFieldPlaylistName.setText(name);}
-
-
-
+    public void setPlaylistName(String name) {
+        this.txtFieldPlaylistName.setText(name);
+    }
 }
