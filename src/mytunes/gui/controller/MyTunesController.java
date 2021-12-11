@@ -38,15 +38,16 @@ public class MyTunesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tvSongsModel = new TableViewSongsModel();
-        tblViewRight.setItems(tvSongsModel.getSongsList());
+        this.tvSongsModel = new TableViewSongsModel();
+        this.tblViewRight.setItems(tvSongsModel.getSongsList());
 
-        tvPlaylistsModel = new TableViewPlaylistsModel();
-        tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+        this.tvPlaylistsModel = new TableViewPlaylistsModel();
+        this.tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
 
-        lvSongsModel = new ListViewSongsModel();
-        lstViewMiddle.setItems(lvSongsModel.getSongs());
-        initTables();
+        this.lvSongsModel = new ListViewSongsModel();
+        this.lstViewMiddle.setItems(lvSongsModel.getSongs());
+
+        this.initTables();
     }
 
     /*
@@ -55,15 +56,15 @@ public class MyTunesController implements Initializable {
      */
     private void initTables() {
         //right side
-        tblColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-        tblColumnArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
-        tblColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        tblColumnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        this.tblColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        this.tblColumnArtist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+        this.tblColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        this.tblColumnTime.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         //left side
-        tblColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>(""));
-        //tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>(""));
+        this.tblColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        this.tblColumnSongs.setCellValueFactory(new PropertyValueFactory<>("totalSongs"));
+        this.tblColumnPlaylistTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
     }
 
     /*
@@ -78,7 +79,7 @@ public class MyTunesController implements Initializable {
         SongDialog dialog = new SongDialog();
         Optional<Song> result = dialog.showAndWait();
         result.ifPresent(response -> {
-            tvSongsModel.addSong(response);
+            this.tvSongsModel.addSong(response);
         });
     }
 
@@ -96,7 +97,7 @@ public class MyTunesController implements Initializable {
             Optional<Song> result = dialog.showAndWait();
             result.ifPresent(response -> {
                 response.setID(selectedSong.getID());
-                tvSongsModel.edit(selectedSong, response);
+                this.tvSongsModel.edit(selectedSong, response);
             });
         }
     }
@@ -105,17 +106,21 @@ public class MyTunesController implements Initializable {
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         if(selectedSong != null)
         {
-            tvSongsModel.deleteSong(selectedSong);
-            lvSongsModel.removeOccurrence(selectedSong);
+            this.tvSongsModel.deleteSong(selectedSong);
+            this.lvSongsModel.removeOccurrence(selectedSong);
+            this.tvPlaylistsModel.refresh();
         }
     }
 
     public void handleSongToPlaylist(ActionEvent event) {
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        int index = tblViewLeft.getSelectionModel().getSelectedIndex();
+
         if(selectedSong != null && selectedPlaylist != null) {
-            lvSongsModel.addSong(selectedSong, selectedPlaylist);
+            this.lvSongsModel.addSong(selectedSong, selectedPlaylist);
             selectedPlaylist.addSong(selectedSong);
+            this.tvPlaylistsModel.update(index, selectedPlaylist);
         }
     }
 
@@ -126,7 +131,7 @@ public class MyTunesController implements Initializable {
         PlaylistDialog dialog = new PlaylistDialog();
         Optional<Playlist> result = dialog.showAndWait();
         result.ifPresent(response -> {
-            tvPlaylistsModel.addPlaylist(response);
+            this.tvPlaylistsModel.addPlaylist(response);
         });
     }
 
@@ -139,7 +144,7 @@ public class MyTunesController implements Initializable {
             Optional<Playlist> result = dialog.showAndWait();
             result.ifPresent(response -> {
                 response.setID(selectedPlaylist.getID());
-                tvPlaylistsModel.edit(selectedPlaylist, response);
+                this.tvPlaylistsModel.edit(selectedPlaylist, response);
             });
         }
 
@@ -149,8 +154,8 @@ public class MyTunesController implements Initializable {
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null)
         {
-            tvPlaylistsModel.delete(selectedPlaylist);
-            lvSongsModel.removeAll();
+            this.tvPlaylistsModel.delete(selectedPlaylist);
+            this.lvSongsModel.removeAll();
         }
     }
 
@@ -162,51 +167,23 @@ public class MyTunesController implements Initializable {
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null)
         {
-            lvSongsModel.select(selectedPlaylist);
+            this.lvSongsModel.select(selectedPlaylist);
         }
     }
 
     public void handleMoveUp(ActionEvent event) {
-        System.out.println("Move Up");
-        Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
-        List<Song> songList = lvSongsModel.getSongs();
-        if(tblViewLeft.getSelectionModel().getSelectedItem() != null)
-        {
-            if(selectedSong != null)
-            {
-                for (int i = 0; i<songList.size(); i++)
-                {
-                    if(songList.get(i).equals(selectedSong) && i !=0) {
-                        Collections.swap(songList, i, i - 1);
-                        Collections.swap(selectedPlaylist.getSongs(), i, i-1);
-                        break;
-                    }
-                }
-
-            }
+        if(selectedPlaylist != null && index != -1){
+            lvSongsModel.moveUp(index, selectedPlaylist);
         }
     }
 
     public void handleMoveDown(ActionEvent event) {
-        System.out.println("Move Down");
-        Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+        int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
-        List<Song> songList = lvSongsModel.getSongs();
-        if(tblViewLeft.getSelectionModel().getSelectedItem() != null)
-        {
-            if(selectedSong != null)
-            {
-                for (int i = 0; i<songList.size(); i++)
-                {
-                    if(songList.get(i).equals(selectedSong) && i !=songList.size()-1) {
-                        Collections.swap(songList, i, i + 1);
-                        Collections.swap(selectedPlaylist.getSongs(), i, i+1);
-                        break;
-                    }
-                }
-
-            }
+        if(selectedPlaylist != null && index != -1){
+            lvSongsModel.moveDown(index, selectedPlaylist);
         }
     }
 
@@ -216,7 +193,7 @@ public class MyTunesController implements Initializable {
         int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         if(selectedSong != null && selectedPlaylist != null){
             selectedPlaylist.remove(index);
-            lvSongsModel.delete(selectedPlaylist, index);
+            this.lvSongsModel.delete(selectedPlaylist, index);
         }
     }
 
@@ -248,7 +225,4 @@ public class MyTunesController implements Initializable {
         System.out.println("Filter");
 
     }
-
-
-
 }

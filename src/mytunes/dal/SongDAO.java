@@ -29,7 +29,7 @@ public class SongDAO {
                 String title = rs.getString("TITLE");
                 String artist = rs.getString("ARTIST");
                 String genre = rs.getString("GENRE");
-                String time = rs.getString("TIME");
+                int time = rs.getInt("TIME");
                 String source = rs.getString("SOURCE");
                 SongGenre songGenre = SongGenre.valueOf(genre.replaceAll(" ", ""));
 
@@ -47,7 +47,7 @@ public class SongDAO {
         String title = song.getTitle();
         String artist = song.getArtist();
         String genre = song.getGenre().toString();
-        String time = song.getTime();
+        int time = song.getTime();
         String source = song.getSource();
 
         try (Connection connection = dbConnector.getConnection()) {
@@ -57,15 +57,14 @@ public class SongDAO {
             statement.setString(1, title);
             statement.setString(2, artist);
             statement.setString(3, genre);
-            statement.setString(4, time);
+            statement.setInt(4, time);
             statement.setString(5, source);
 
             ResultSet rs = statement.executeQuery();
 
             //returns the ID in DB of just added Song
             rs.next();
-            int id = rs.getInt("ID");
-            return id;
+            return rs.getInt("ID");
         } catch (SQLException exception) {
             exception.printStackTrace();
             return -1;
@@ -75,11 +74,10 @@ public class SongDAO {
     public void update(Song song) {
 
         int id = song.getID();
-
         String title = song.getTitle();
         String artist = song.getArtist();
         String genre = song.getGenre().toString();
-        String time = song.getTime();
+        int time = song.getTime();
         String source = song.getSource();
 
         try (Connection connection = dbConnector.getConnection()) {
@@ -90,7 +88,7 @@ public class SongDAO {
             statement.setString(1, title);
             statement.setString(2, artist);
             statement.setString(3, genre);
-            statement.setString(4, time);
+            statement.setInt(4, time);
             statement.setString(5, source);
             statement.setInt(6, id);
 

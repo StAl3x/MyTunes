@@ -1,25 +1,34 @@
 package mytunes.bll;
 
 import mytunes.be.Playlist;
+import mytunes.be.Song;
 import mytunes.dal.PlaylistDAO;
+import mytunes.dal.SongsOnPlaylistDAO;
 
 import java.util.List;
 
 public class PlaylistsLogic {
 
     private PlaylistDAO playlistDAO;
+    private SongsOnPlaylistDAO songsOnPlaylistDAO;
 
     public PlaylistsLogic() {
         this.playlistDAO = new PlaylistDAO();
+        this.songsOnPlaylistDAO = new SongsOnPlaylistDAO();
     }
 
     public List<Playlist> getAll() {
-        return playlistDAO.getAll();
+        List<Playlist> allPlaylists = playlistDAO.getAll();
+        for (Playlist playlist :
+                allPlaylists) {
+            List<Song> songsOnPlaylist = songsOnPlaylistDAO.getAll(playlist);
+            playlist.addSongs(songsOnPlaylist);
+        }
+        return allPlaylists;
     }
 
-    public void add(Playlist playlist) {
-        int id = playlistDAO.add(playlist);
-        playlist.setID(id);
+    public int add(Playlist playlist) {
+        return playlistDAO.add(playlist);
     }
 
     public void update(Playlist updatedPlaylist) {

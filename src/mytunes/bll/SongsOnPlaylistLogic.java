@@ -4,6 +4,7 @@ import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.dal.SongsOnPlaylistDAO;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SongsOnPlaylistLogic {
@@ -23,10 +24,16 @@ public class SongsOnPlaylistLogic {
     }
 
     public void update(Playlist playlist){
-        songsOnPlaylistDAO.update(playlist);
+        songsOnPlaylistDAO.updatePlaylist(playlist);
     }
 
-    public void delete(Playlist playlist){
-        songsOnPlaylistDAO.delete(playlist);
+    public void moveUp(int index, int swapOther, Playlist playlist) {
+        Collections.swap(playlist.getSongs(), index, swapOther);
+        this.update(playlist);
+    }
+
+    public void moveDown(int index, int swapOther, Playlist playlist){
+        Collections.swap(playlist.getSongs(), index, swapOther);
+        this.update(playlist);
     }
 }

@@ -41,7 +41,7 @@ public class SongsOnPlaylistDAO {
                     String title = rsSong.getString("TITLE");
                     String artist = rsSong.getString("ARTIST");
                     String genre = rsSong.getString("GENRE");
-                    String time = rsSong.getString("TIME");
+                    int time = rsSong.getInt("TIME");
                     String source = rsSong.getString("SOURCE");
                     SongGenre songGenre = SongGenre.valueOf(genre.replaceAll(" ", ""));
 
@@ -74,7 +74,11 @@ public class SongsOnPlaylistDAO {
         }
     }
 
-    public void delete(Playlist playlist) {
+    /***
+     * Delete whole playlist then add it back with updated Songs
+     * @param playlist updated playlist
+     */
+    public void updatePlaylist(Playlist playlist) {
 
         //delete all Songs on Playlist
         //add them all back without the selected index
@@ -107,9 +111,5 @@ public class SongsOnPlaylistDAO {
         } catch (SQLException exception){
             exception.printStackTrace();
         }
-    }
-
-    public void update(Playlist playlist) {
-
     }
 }

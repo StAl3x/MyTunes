@@ -44,8 +44,8 @@ public class SongDialogController implements Initializable {
         return this.choiceBoxGenre.getValue();
     }
 
-    public String getTime() {
-        return this.txtFieldTime.getText();
+    public int getTime() {
+        return Integer.parseInt(this.txtFieldTime.getText());
     }
 
     public String getPath() {

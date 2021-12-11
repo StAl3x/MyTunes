@@ -48,8 +48,7 @@ public class PlaylistDAO {
 
             //returns the ID in DB of just added Playlist
             rs.next();
-            int id = rs.getInt("ID");
-            return id;
+            return rs.getInt("ID");
         } catch (SQLException exception){
             exception.printStackTrace();
             return -1;

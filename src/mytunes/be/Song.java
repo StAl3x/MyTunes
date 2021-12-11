@@ -5,10 +5,10 @@ public class Song {
     private String title;
     private String artist;
     private SongGenre genre;
-    private String time;
+    private int time;
     private String source;
 
-    public Song(String title, String artist, SongGenre genre, String time, String source) {
+    public Song(String title, String artist, SongGenre genre, int time, String source) {
         this.title = title;
         this.artist = artist;
         this.genre = genre;
@@ -28,7 +28,11 @@ public class Song {
         return this.genre;
     }
 
-    public String getTime() {
+    public String getTimeString() {
+        return ""+this.time;
+    }
+
+    public int getTime(){
         return this.time;
     }
 
@@ -42,7 +46,7 @@ public class Song {
         this.ID = id;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
@@ -64,7 +68,7 @@ public class Song {
 
     @Override
     public String toString() {
-        return "%d\n%s: %s\n%s\t%s\n%s".formatted(
+        return "%d\n%s: %s\n%s\t%d\n%s".formatted(
                 this.ID,
                 this.artist,
                 this.title,

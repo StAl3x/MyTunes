@@ -17,9 +17,8 @@ public class SongsLogic {
         return songDAO.getAll();
     }
 
-    public void add(Song song) {
-        int id = songDAO.add(song);
-        song.setID(id);
+    public int add(Song song) {
+        return songDAO.add(song);
     }
 
     public void update(Song updatedSong) {

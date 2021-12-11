@@ -2,11 +2,11 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.SongsOnPlaylistLogic;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ListViewSongsModel {
@@ -41,18 +41,28 @@ public class ListViewSongsModel {
     }
 
     public void delete(Playlist playlist, int index){
-        songsOnPlaylistLogic.delete(playlist);
+        songsOnPlaylistLogic.update(playlist);
         songsOnPlaylist.remove(index);
     }
 
     public void select(Playlist playlist) {
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
-        List<Song> allSongs = songsOnPlaylistLogic.getAll(playlist);
-        songsOnPlaylist.addAll(allSongs);
-        playlist.addSongs(allSongs);
+        songsOnPlaylist.addAll(playlist.getSongs());
     }
 
     public void removeOccurrence(Song song) {
         songsOnPlaylist.removeAll(song);
+    }
+
+    public void moveUp(int index, Playlist playlist) {
+        int swapOther = Math.max(0, index-1);
+        Collections.swap(this.songsOnPlaylist, index, swapOther);
+        this.songsOnPlaylistLogic.moveUp(index, swapOther, playlist);
+    }
+
+    public void moveDown(int index, Playlist playlist) {
+        int swapOther = Math.min(playlist.getSongs().size(), index+1);
+        Collections.swap(this.songsOnPlaylist, index, swapOther);
+        this.songsOnPlaylistLogic.moveDown(index, swapOther, playlist);
     }
 }

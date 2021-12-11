@@ -11,9 +11,9 @@ public class TableViewSongsModel {
     SongsLogic songsLogic;
 
     public TableViewSongsModel(){
-        songsList = FXCollections.observableArrayList();
-        songsLogic = new SongsLogic();
-        songsList.addAll(songsLogic.getAll());
+        this.songsList = FXCollections.observableArrayList();
+        this.songsLogic = new SongsLogic();
+        this.songsList.addAll(songsLogic.getAll());
     }
 
     public ObservableList<Song> getSongsList(){
@@ -21,18 +21,19 @@ public class TableViewSongsModel {
     }
 
     public void addSong(Song song){
-        songsLogic.add(song);
-        songsList.add(song);
+        int id = this.songsLogic.add(song);
+        song.setID(id);
+        this.songsList.add(song);
     }
 
     public void edit(Song uneditedSong, Song editedSong){
-        songsLogic.update(editedSong);
-        songsList.set(songsList.indexOf(uneditedSong), editedSong);
+        this.songsLogic.update(editedSong);
+        this.songsList.set(songsList.indexOf(uneditedSong), editedSong);
     }
 
     public void deleteSong(Song song)
     {
-        songsLogic.delete(song);
-        songsList.remove(song);
+        this.songsLogic.delete(song);
+        this.songsList.remove(song);
     }
 }

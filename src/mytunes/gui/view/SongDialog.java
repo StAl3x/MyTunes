@@ -37,7 +37,7 @@ public class SongDialog extends Dialog<Song>{
         controller.setTitle(song.getTitle());
         controller.setArtist(song.getArtist());
         controller.setGenre(song.getGenre());
-        controller.setTime(song.getTime());
+        controller.setTime(song.getTimeString());
         controller.setSource(song.getSource());
     }
 }
