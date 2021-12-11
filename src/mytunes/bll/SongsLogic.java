@@ -3,7 +3,9 @@ package mytunes.bll;
 import mytunes.be.Song;
 import mytunes.dal.SongDAO;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SongsLogic {
 
@@ -27,5 +29,19 @@ public class SongsLogic {
 
     public void delete(Song song) {
         songDAO.delete(song);
+    }
+
+    public List<Song> filter(String query) {
+        List<Song> filtered = new ArrayList<>();
+        List<Song> allSongs = this.getAll();
+        for (Song song :
+                allSongs) {
+            if (song.getArtist().toLowerCase().contains(query) ||
+                song.getTitle().toLowerCase().contains(query) ||
+                song.getGenre().toString().toLowerCase().contains(query)) {
+                filtered.add(song);
+            }
+        }
+        return filtered.size() > 0 ? filtered : getAll();
     }
 }

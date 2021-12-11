@@ -36,4 +36,9 @@ public class TableViewSongsModel {
         this.songsLogic.delete(song);
         this.songsList.remove(song);
     }
+
+    public void filter(String query) {
+        this.songsList.remove(0, this.songsList.size());
+        this.songsList.addAll(this.songsLogic.filter(query));
+    }
 }

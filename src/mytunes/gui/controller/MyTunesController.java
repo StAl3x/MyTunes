@@ -36,6 +36,8 @@ public class MyTunesController implements Initializable {
 
     public Label lblSongPlaying;
 
+    public TextField txtFieldFilter;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.tvSongsModel = new TableViewSongsModel();
@@ -203,7 +205,9 @@ public class MyTunesController implements Initializable {
      */
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-
+        System.out.println(tblViewLeft.getSelectionModel().getSelectedItem());
+        System.out.println(tblViewRight.getSelectionModel().getSelectedItem());
+        System.out.println(lstViewMiddle.getSelectionModel().getSelectedItem());
     }
 
     public void handlePrevious(ActionEvent event) {
@@ -222,7 +226,7 @@ public class MyTunesController implements Initializable {
     }
 
     public void handleFilter(ActionEvent event) {
-        System.out.println("Filter");
-
+        String query = this.txtFieldFilter.getText().toLowerCase();
+        tvSongsModel.filter(query);
     }
 }
