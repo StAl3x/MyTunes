@@ -30,8 +30,12 @@ public class Playlist {
         this.name = name;
     }
 
-    public void removeSong(Song song) {
+    public void remove(Song song) {
         songs.remove(song);
+    }
+
+    public void remove(int index){
+        songs.remove(index);
     }
 
     public void addSong(Song song) {

@@ -106,11 +106,11 @@ public class MyTunesController implements Initializable {
         if(selectedSong != null)
         {
             tvSongsModel.deleteSong(selectedSong);
+            lvSongsModel.removeOccurrence(selectedSong);
         }
     }
 
     public void handleSongToPlaylist(ActionEvent event) {
-        System.out.println("To Playlist");
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedSong != null && selectedPlaylist != null) {
@@ -149,9 +149,9 @@ public class MyTunesController implements Initializable {
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null)
         {
-            tvPlaylistsModel.deletePlaylist(selectedPlaylist);
+            tvPlaylistsModel.delete(selectedPlaylist);
+            lvSongsModel.removeAll();
         }
-        lvSongsModel.deleteSongsFromListView();
     }
 
     /*
@@ -159,10 +159,10 @@ public class MyTunesController implements Initializable {
      */
 
     public void handleLeftTableClicked(MouseEvent mouseEvent) {
-        Playlist playlist = tblViewLeft.getSelectionModel().getSelectedItem();
-        if(playlist != null)
+        Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        if(selectedPlaylist != null)
         {
-            lvSongsModel.select(playlist);
+            lvSongsModel.select(selectedPlaylist);
         }
     }
 
@@ -211,11 +211,12 @@ public class MyTunesController implements Initializable {
     }
 
     public void handleRemoveFromPlaylist(ActionEvent event) {
-        System.out.println("Remove From Playlist");
         Song selectedSong = lstViewMiddle.getSelectionModel().getSelectedItem();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
+        int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         if(selectedSong != null && selectedPlaylist != null){
-            lvSongsModel.delete(selectedSong, selectedPlaylist);
+            selectedPlaylist.remove(index);
+            lvSongsModel.delete(selectedPlaylist, index);
         }
     }
 

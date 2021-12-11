@@ -102,9 +102,17 @@ public class SongDAO {
 
     public void delete(Song song) {
         try (Connection connection = dbConnector.getConnection()) {
-            //! Will have problems in future with FKs on SongsOnPlaylist Table !
-            String sql = "DELETE FROM Songs WHERE ID = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            //first, we delete all Song occurrences in Playlists
+            String sqlPlaylists = "DELETE FROM SongsOnPlaylist WHERE SongID=?";
+            PreparedStatement statementPlaylists = connection.prepareStatement(sqlPlaylists);
+
+            statementPlaylists.setInt(1, song.getID());
+
+            statementPlaylists.execute();
+
+            //then we delete the Song itself
+            String sqlSong = "DELETE FROM Songs WHERE ID = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlSong);
 
             statement.setInt(1, song.getID());
 

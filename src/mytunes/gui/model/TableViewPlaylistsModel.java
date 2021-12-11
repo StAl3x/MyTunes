@@ -31,7 +31,7 @@ public class TableViewPlaylistsModel {
     }
 
 
-    public void deletePlaylist(Playlist playlist) {
+    public void delete(Playlist playlist) {
         playlistsLogic.delete(playlist);
         playlistList.remove(playlist);
     }

@@ -74,23 +74,42 @@ public class SongsOnPlaylistDAO {
         }
     }
 
-    public void update(Playlist playlist) {
-    }
+    public void delete(Playlist playlist) {
 
-    public void delete(Song song, Playlist playlist) {
-        int songID = song.getID();
+        //delete all Songs on Playlist
+        //add them all back without the selected index
         int playlistID = playlist.getID();
 
         try(Connection connection = dbConnector.getConnection()){
-            String sql = "DELETE FROM SongsOnPlaylist WHERE SongID=? AND PlaylistID=?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            String sqlPlaylist = "DELETE FROM SongsOnPlaylist WHERE PlaylistID=?";
+            PreparedStatement statementPlaylist = connection.prepareStatement(sqlPlaylist);
 
-            statement.setInt(1, songID);
-            statement.setInt(2, playlistID);
+            statementPlaylist.setInt(1, playlistID);
 
-            statement.execute();
+            statementPlaylist.execute();
+
+            int index_ = 0;
+            for (Song song :
+                    playlist.getSongs()) {
+                int songID = song.getID();
+
+                String sqlSong = "INSERT INTO SongsOnPlaylist(SongID, PlaylistID, [INDEX]) VALUES (?, ?, ?)";
+                PreparedStatement statementSong = connection.prepareStatement(sqlSong);
+
+                statementSong.setInt(1, songID);
+                statementSong.setInt(2, playlistID);
+                statementSong.setInt(3, index_);
+
+                statementSong.execute();
+                index_++;
+            }
+
         } catch (SQLException exception){
             exception.printStackTrace();
         }
+    }
+
+    public void update(Playlist playlist) {
+
     }
 }

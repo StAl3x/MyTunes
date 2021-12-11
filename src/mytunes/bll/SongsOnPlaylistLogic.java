@@ -26,7 +26,7 @@ public class SongsOnPlaylistLogic {
         songsOnPlaylistDAO.update(playlist);
     }
 
-    public void delete(Song song, Playlist playlist){
-        songsOnPlaylistDAO.delete(song, playlist);
+    public void delete(Playlist playlist){
+        songsOnPlaylistDAO.delete(playlist);
     }
 }

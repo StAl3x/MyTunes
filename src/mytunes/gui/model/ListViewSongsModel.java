@@ -30,7 +30,7 @@ public class ListViewSongsModel {
         songsOnPlaylist.addAll(songs);
     }
 
-    public void deleteSongsFromListView(){
+    public void removeAll(){
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
     }
 
@@ -40,13 +40,19 @@ public class ListViewSongsModel {
         songsOnPlaylist.add(song);
     }
 
-    public void delete(Song song, Playlist playlist){
-        songsOnPlaylistLogic.delete(song, playlist);
-        songsOnPlaylist.remove(song);
+    public void delete(Playlist playlist, int index){
+        songsOnPlaylistLogic.delete(playlist);
+        songsOnPlaylist.remove(index);
     }
 
     public void select(Playlist playlist) {
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
-        songsOnPlaylist.addAll(songsOnPlaylistLogic.getAll(playlist));
+        List<Song> allSongs = songsOnPlaylistLogic.getAll(playlist);
+        songsOnPlaylist.addAll(allSongs);
+        playlist.addSongs(allSongs);
+    }
+
+    public void removeOccurrence(Song song) {
+        songsOnPlaylist.removeAll(song);
     }
 }

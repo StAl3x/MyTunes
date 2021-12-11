@@ -76,9 +76,17 @@ public class PlaylistDAO {
 
     public void delete(Playlist playlist){
         try(Connection connection = dbConnector.getConnection()){
-            //! Will have problems in future with FKs on SongsOnPlaylist Table !
-            String sql = "DELETE FROM Playlists WHERE ID = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            //first, we delete all Songs from the Playlist
+            String sqlSongs = "DELETE FROM SongsOnPlaylist WHERE PlaylistID=?";
+            PreparedStatement statementSongs = connection.prepareStatement(sqlSongs);
+
+            statementSongs.setInt(1, playlist.getID());
+
+            statementSongs.execute();
+
+            //then we delete the playlist itself from DB
+            String sqlPlaylist = "DELETE FROM Playlists WHERE ID = ?";
+            PreparedStatement statement = connection.prepareStatement(sqlPlaylist);
 
             statement.setInt(1, playlist.getID());
 
@@ -87,58 +95,4 @@ public class PlaylistDAO {
             exception.printStackTrace();
         }
     }
-
-    /*public void addPlaylist(String title) throws SQLException {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO Playlists(Title) VALUES ( ? )";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, title);
-            statement.execute();
-        }
-    }*/
-
-    /*public void addSongToPlaylistConnector(int songId, int playlistId, int songIndex) throws SQLException {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "INSERT INTO PlaylistConnector(SongId,PlaylistId, SongIndex) VALUES ( ? , ? , ? )";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, songId);
-            statement.setInt(2, playlistId);
-            statement.setInt(3, songIndex);
-            statement.execute();
-        }
-    }*/
-
-    /*public void seedPlaylist(Playlist playlist) throws SQLException {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql = "SELECT * FROM PlaylistConnector WHERE PlaylistId = ? ORDER BY PlaylistIndex ASC;";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, playlist.getPlaylistID());
-            List<Song> playlistSongs = new ArrayList<>();
-            if (statement.execute(sql)) {
-                List<Song> allSongs = songsLogic.getAll();
-                ResultSet resultSet = statement.getResultSet();
-                while (resultSet.next()) {
-                    int songId = resultSet.getInt("SongID");
-                    playlist.addSong(allSongs.get(songId));
-                }
-            }
-        }
-    }*/
-
-    /*public void removeSong(Playlist playlist) {
-        try (Connection connection = dbConnector.getConnection()) {
-            String sql1 = "DELETE FROM PlaylistConnector WHERE PlaylistID = ?";
-            PreparedStatement preparedStatement1 = connection.prepareStatement(sql1);
-            preparedStatement1.setInt(1, playlist.getID());
-            preparedStatement1.execute();
-            String sql2 = "DELETE FROM Playlists WHERE PlaylistID = ?";
-            PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
-            preparedStatement2.setInt(1, playlist.getID());
-            preparedStatement2.execute();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }*/
-
 }
