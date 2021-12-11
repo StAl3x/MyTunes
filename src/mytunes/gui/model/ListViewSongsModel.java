@@ -5,18 +5,19 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.bll.SongsOnPlaylistLogic;
 
 import java.util.List;
 
 public class ListViewSongsModel {
 
     ObservableList<Song> songsOnPlaylist;
-    //ObservableMap<Integer, Song> songsOnPlaylist;
+    SongsOnPlaylistLogic songsOnPlaylistLogic;
 
     public ListViewSongsModel()
     {
         songsOnPlaylist = FXCollections.observableArrayList();
-        //songsOnPlaylist = FXCollections.observableHashMap();
+        songsOnPlaylistLogic = new SongsOnPlaylistLogic();
     }
 
     public ObservableList<Song> getSongs()
@@ -27,15 +28,25 @@ public class ListViewSongsModel {
     public void addSongsToListView(List<Song> songs)
     {
         songsOnPlaylist.addAll(songs);
-
     }
 
     public void deleteSongsFromListView(){
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
     }
 
-    public void addOneSongToListView(Song song)
+    public void addSong(Song song, Playlist playlist)
     {
+        songsOnPlaylistLogic.add(song, playlist);
         songsOnPlaylist.add(song);
+    }
+
+    public void delete(Song song, Playlist playlist){
+        songsOnPlaylistLogic.delete(song, playlist);
+        songsOnPlaylist.remove(song);
+    }
+
+    public void select(Playlist playlist) {
+        songsOnPlaylist.remove(0, songsOnPlaylist.size());
+        songsOnPlaylist.addAll(songsOnPlaylistLogic.getAll(playlist));
     }
 }

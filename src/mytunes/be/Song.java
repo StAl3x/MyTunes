@@ -1,9 +1,7 @@
 package mytunes.be;
 
-import java.sql.Time;
-
 public class Song {
-    private int songID;
+    private int ID;
     private String title;
     private String artist;
     private SongGenre genre;
@@ -38,10 +36,10 @@ public class Song {
         return this.source;
     }
 
-    public int getID(){return this.songID; }
+    public int getID(){return this.ID; }
 
     public void setID(int id) {
-        this.songID = id;
+        this.ID = id;
     }
 
     public void setTime(String time) {
@@ -67,7 +65,7 @@ public class Song {
     @Override
     public String toString() {
         return "%d\n%s: %s\n%s\t%s\n%s".formatted(
-                this.songID,
+                this.ID,
                 this.artist,
                 this.title,
                 this.genre.toString(),

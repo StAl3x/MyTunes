@@ -4,41 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist {
-    private int playlistID;
+    private int ID;
     private String name;
-    private List<Song> songs = new ArrayList<>();
+    private List<Song> songs;
 
 
-    public Playlist(String name){this.name=name;}
-
-    public Playlist(String name, List<Song> songs){
-        this.playlistID= playlistID;
+    public Playlist(String name) {
         this.name = name;
-        this.songs = songs;
+        this.songs = new ArrayList<>();
     }
 
+    public int getID() {
+        return ID;
+    }
 
+    public void setID(int id) {
+        this.ID = id;
+    }
 
-    public void removeSong(Song song){
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void removeSong(Song song) {
         songs.remove(song);
     }
 
-    public void addSong(Song song){
+    public void addSong(Song song) {
         songs.add(song);
     }
 
-    public String getName(){
-        return this.name;
+    public void addSongs(List<Song> songs) {
+        this.songs = songs;
     }
 
     public List<Song> getSongs() {
         return this.songs;
-    }
-
-    public void setID(int id) {
-        this.playlistID = id;
-    }
-        public int getID() {
-        return playlistID;
     }
 }
