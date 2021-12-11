@@ -80,4 +80,26 @@ public class PlaylistConnectorDAO {
         }
     }
 
+    public void moveSongUp(Playlist playlist, Song song)
+    {
+        int desiredIndex = song.getIndex() -1;
+        int index = song.getIndex();
+
+        try (Connection connection = dbConnector.getConnection())
+        {
+            String sql1 = "UPDATE PlaylistConnector SET SongIndex = ? WHERE PlaylistID = ? AND SongID = ? AND SongIndex = ?";
+            PreparedStatement preparedStatement1 =connection.prepareStatement(sql1);
+
+            preparedStatement1.setInt(1, desiredIndex);
+            preparedStatement1.setInt(2, song.getSongID());
+            preparedStatement1.setInt(3, song.getIndex());
+            preparedStatement1.execute();
+            System.out.println(playlist.getPlaylistID());
+            System.out.println(song.getSongID());
+            System.out.println(song.getIndex());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 }
