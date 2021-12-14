@@ -4,6 +4,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class Song {
 
@@ -23,8 +24,11 @@ public class Song {
         this.time = time;
         this.source = source;
 
-        this.songMedia = new Media(new File(this.source).toURI().toString());
-        this.mediaPlayer = new MediaPlayer(this.songMedia);
+        File file = new File(this.source);
+        if(file.exists()){
+            this.songMedia = new Media(file.toURI().toString());
+            this.mediaPlayer = new MediaPlayer(this.songMedia);
+        }
     }
 
     public String getTitle() {
