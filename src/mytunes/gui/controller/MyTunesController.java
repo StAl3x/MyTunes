@@ -36,9 +36,12 @@ public class MyTunesController implements Initializable {
     public ListView<Song> lstViewMiddle;
     private ListViewSongsModel lvSongsModel;
 
-    public Label lblSongPlaying;
-
     public TextField txtFieldFilter;
+
+    public Label lblSongPlaying;
+    public Slider sldrVolume;
+
+    private Song playingSong;
 
 
     @Override
@@ -49,7 +52,10 @@ public class MyTunesController implements Initializable {
 
             this.tvPlaylistsModel = new TableViewPlaylistsModel();
             this.tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+        this.playingSong = null;
 
+        this.tvSongsModel = new TableViewSongsModel();
+        this.tblViewRight.setItems(tvSongsModel.getSongsList());
             this.lvSongsModel = new ListViewSongsModel();
             this.lstViewMiddle.setItems(lvSongsModel.getSongs());
 
@@ -65,6 +71,8 @@ public class MyTunesController implements Initializable {
     private void createAlertDialog(DataException e) {
         ErrorAlert dialog = new ErrorAlert(Alert.AlertType.CONFIRMATION, e.getMessage(), ButtonType.OK);
         dialog.showAndWait();
+        this.initTables();
+
     }
 
     /*
@@ -282,9 +290,18 @@ public class MyTunesController implements Initializable {
      */
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-        System.out.println(tblViewLeft.getSelectionModel().getSelectedItem());
-        System.out.println(tblViewRight.getSelectionModel().getSelectedItem());
-        System.out.println(lstViewMiddle.getSelectionModel().getSelectedItem());
+        Song allSong = tblViewRight.getSelectionModel().getSelectedItem();
+        Song playlistSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+
+        if(allSong != null){
+            this.playingSong = allSong;
+        }
+        if(playlistSong != null){
+            this.playingSong = playlistSong;
+        }
+        if(this.playingSong != null){
+            this.playingSong.play();
+        }
     }
 
     public void handlePrevious(ActionEvent event) {
@@ -299,6 +316,10 @@ public class MyTunesController implements Initializable {
 
     public void handleVolume(MouseEvent mouseEvent) {
         System.out.println("Change of Volume");
+        double volume = sldrVolume.getValue();
+        if(this.playingSong != null){
+            this.playingSong.setVolume(volume);
+        }
 
     }
 
