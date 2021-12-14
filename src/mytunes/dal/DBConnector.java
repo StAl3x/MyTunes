@@ -2,6 +2,7 @@ package mytunes.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import mytunes.dal.Exceptions.DataException;
 
 import java.sql.Connection;
 
@@ -18,8 +19,12 @@ public class DBConnector {
         dataSource.setPortNumber(1433);
 
     }
-    public Connection getConnection() throws SQLServerException
+    public Connection getConnection() throws DataException
     {
-        return dataSource.getConnection();
+        try {
+            return dataSource.getConnection();
+        } catch (SQLServerException exception) {
+            throw new DataException("Cant connect to DB", exception);
+        }
     }
 }

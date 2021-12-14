@@ -2,6 +2,7 @@ package mytunes.bll;
 
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.dal.Exceptions.DataException;
 import mytunes.dal.PlaylistDAO;
 import mytunes.dal.SongsOnPlaylistDAO;
 
@@ -17,7 +18,7 @@ public class PlaylistsLogic {
         this.songsOnPlaylistDAO = new SongsOnPlaylistDAO();
     }
 
-    public List<Playlist> getAll() {
+    public List<Playlist> getAll() throws DataException {
         List<Playlist> allPlaylists = playlistDAO.getAll();
         for (Playlist playlist :
                 allPlaylists) {
@@ -27,15 +28,15 @@ public class PlaylistsLogic {
         return allPlaylists;
     }
 
-    public int add(Playlist playlist) {
+    public int add(Playlist playlist) throws DataException {
         return playlistDAO.add(playlist);
     }
 
-    public void update(Playlist updatedPlaylist) {
+    public void update(Playlist updatedPlaylist) throws DataException {
         playlistDAO.update(updatedPlaylist);
     }
 
-    public void delete(Playlist playlist) {
+    public void delete(Playlist playlist) throws DataException {
         playlistDAO.delete(playlist);
     }
 }

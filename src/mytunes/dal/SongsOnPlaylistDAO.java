@@ -3,6 +3,7 @@ package mytunes.dal;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
+import mytunes.dal.Exceptions.DataException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,14 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongsOnPlaylistDAO {
+public class SongsOnPlaylistDAO implements ISongOnPlaylistData {
     private DBConnector dbConnector;
 
     public SongsOnPlaylistDAO(){
         dbConnector = new DBConnector();
     }
 
-    public List<Song> getAll(Playlist playlist) {
+    @Override
+    public List<Song> getAll(Playlist playlist) throws DataException {
         List<Song> songsOnPlaylist = new ArrayList<>();
 
         try(Connection connection = dbConnector.getConnection()){
@@ -51,12 +53,13 @@ public class SongsOnPlaylistDAO {
                 }
             }
         } catch (SQLException exception){
-            exception.printStackTrace();
+            throw new DataException("Cant connect to DB", exception);
         }
         return songsOnPlaylist;
     }
 
-    public void add(Song song, Playlist playlist) {
+    @Override
+    public void add(Song song, Playlist playlist) throws DataException{
         int songID = song.getID();
         int playlistID = playlist.getID();
 
@@ -70,7 +73,7 @@ public class SongsOnPlaylistDAO {
 
             statement.execute();
         } catch (SQLException exception){
-            exception.printStackTrace();
+            throw new DataException("Cant connect to DB", exception);
         }
     }
 
@@ -78,7 +81,8 @@ public class SongsOnPlaylistDAO {
      * Delete whole playlist then add it back with updated Songs
      * @param playlist updated playlist
      */
-    public void updatePlaylist(Playlist playlist) {
+    @Override
+    public void updatePlaylist(Playlist playlist) throws DataException{
 
         //delete all Songs on Playlist
         //add them all back without the selected index
@@ -109,7 +113,7 @@ public class SongsOnPlaylistDAO {
             }
 
         } catch (SQLException exception){
-            exception.printStackTrace();
+            throw new DataException("Cant connect to DB", exception);
         }
     }
 }

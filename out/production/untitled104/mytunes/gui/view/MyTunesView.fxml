@@ -30,7 +30,7 @@
       <VBox prefHeight="453.0" prefWidth="392.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
             <Label text="Songs" />
-            <TableView id="tblViewRight" fx:id="tblViewRight" prefHeight="418.0" prefWidth="372.0">
+            <TableView id="tblViewRight" fx:id="tblViewRight" onMouseClicked="#handleRightTableClicked" prefHeight="418.0" prefWidth="372.0">
               <columns>
                 <TableColumn fx:id="tblColumnTitle" editable="false" prefWidth="75.0" text="Title " />
                 <TableColumn fx:id="tblColumnArtist" editable="false" prefWidth="75.0" text="Artist" />
@@ -76,7 +76,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Label text="Songs On Playlist" />
-            <ListView fx:id="lstViewMiddle" maxWidth="169.0" prefHeight="385.0" prefWidth="162.0" />
+            <ListView fx:id="lstViewMiddle" maxWidth="169.0" onMouseClicked="#handleListViewClicked" prefHeight="385.0" prefWidth="162.0" />
          </children>
          <GridPane.margin>
             <Insets />

@@ -5,13 +5,14 @@ import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.PlaylistsLogic;
+import mytunes.dal.Exceptions.DataException;
 
 public class TableViewPlaylistsModel {
 
     ObservableList<Playlist> playlistList;
     PlaylistsLogic playlistsLogic;
 
-    public TableViewPlaylistsModel() {
+    public TableViewPlaylistsModel() throws DataException {
         playlistList = FXCollections.observableArrayList();
         playlistsLogic = new PlaylistsLogic();
         refresh();
@@ -21,19 +22,19 @@ public class TableViewPlaylistsModel {
         return this.playlistList;
     }
 
-    public void addPlaylist(Playlist playlist) {
+    public void addPlaylist(Playlist playlist) throws DataException {
         int id = playlistsLogic.add(playlist);
         playlist.setID(id);
         playlistList.add(playlist);
     }
 
-    public void edit(Playlist uneditedPlaylist, Playlist editedPlaylist) {
+    public void edit(Playlist uneditedPlaylist, Playlist editedPlaylist) throws DataException {
         playlistsLogic.update(editedPlaylist);
         playlistList.set(playlistList.indexOf(uneditedPlaylist), editedPlaylist);
     }
 
 
-    public void delete(Playlist playlist) {
+    public void delete(Playlist playlist) throws DataException {
         playlistsLogic.delete(playlist);
         playlistList.remove(playlist);
     }
@@ -46,7 +47,7 @@ public class TableViewPlaylistsModel {
         this.playlistList.remove(0, this.playlistList.size());
     }
 
-    public void refresh() {
+    public void refresh() throws DataException {
         this.deleteAll();
         this.playlistList.addAll(playlistsLogic.getAll());
     }

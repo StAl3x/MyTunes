@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.SongsOnPlaylistLogic;
+import mytunes.dal.Exceptions.DataException;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,13 +35,12 @@ public class ListViewSongsModel {
         songsOnPlaylist.remove(0, songsOnPlaylist.size());
     }
 
-    public void addSong(Song song, Playlist playlist)
-    {
+    public void addSong(Song song, Playlist playlist) throws DataException {
         songsOnPlaylistLogic.add(song, playlist);
         songsOnPlaylist.add(song);
     }
 
-    public void delete(Playlist playlist, int index){
+    public void delete(Playlist playlist, int index) throws DataException {
         songsOnPlaylistLogic.update(playlist);
         songsOnPlaylist.remove(index);
     }
@@ -54,13 +54,13 @@ public class ListViewSongsModel {
         songsOnPlaylist.removeAll(song);
     }
 
-    public void moveUp(int index, Playlist playlist) {
+    public void moveUp(int index, Playlist playlist) throws DataException {
         int swapOther = Math.max(0, index-1);
         Collections.swap(this.songsOnPlaylist, index, swapOther);
         this.songsOnPlaylistLogic.moveUp(index, swapOther, playlist);
     }
 
-    public void moveDown(int index, Playlist playlist) {
+    public void moveDown(int index, Playlist playlist) throws DataException {
         int swapOther = Math.min(playlist.getSongs().size(), index+1);
         Collections.swap(this.songsOnPlaylist, index, swapOther);
         this.songsOnPlaylistLogic.moveDown(index, swapOther, playlist);

@@ -7,9 +7,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import mytunes.be.Playlist;
 import mytunes.be.Song;
+import mytunes.dal.Exceptions.DataException;
 import mytunes.gui.model.ListViewSongsModel;
 import mytunes.gui.model.TableViewPlaylistsModel;
 import mytunes.gui.model.TableViewSongsModel;
+import mytunes.gui.view.ErrorAlert;
 import mytunes.gui.view.SongDialog;
 import mytunes.gui.view.PlaylistDialog;
 
@@ -38,18 +40,31 @@ public class MyTunesController implements Initializable {
 
     public TextField txtFieldFilter;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.tvSongsModel = new TableViewSongsModel();
-        this.tblViewRight.setItems(tvSongsModel.getSongsList());
+        try {
+            this.tvSongsModel = new TableViewSongsModel();
+            this.tblViewRight.setItems(tvSongsModel.getSongsList());
 
-        this.tvPlaylistsModel = new TableViewPlaylistsModel();
-        this.tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
+            this.tvPlaylistsModel = new TableViewPlaylistsModel();
+            this.tblViewLeft.setItems(tvPlaylistsModel.getPlaylistList());
 
-        this.lvSongsModel = new ListViewSongsModel();
-        this.lstViewMiddle.setItems(lvSongsModel.getSongs());
+            this.lvSongsModel = new ListViewSongsModel();
+            this.lstViewMiddle.setItems(lvSongsModel.getSongs());
 
-        this.initTables();
+            this.initTables();
+        } catch (DataException e) {
+            createAlertDialog(e);
+            initialize(location, resources);
+        }
+
+
+    }
+
+    private void createAlertDialog(DataException e) {
+        ErrorAlert dialog = new ErrorAlert(Alert.AlertType.CONFIRMATION, e.getMessage(), ButtonType.OK);
+        dialog.showAndWait();
     }
 
     /*
@@ -81,7 +96,12 @@ public class MyTunesController implements Initializable {
         SongDialog dialog = new SongDialog();
         Optional<Song> result = dialog.showAndWait();
         result.ifPresent(response -> {
-            this.tvSongsModel.addSong(response);
+            try {
+                this.tvSongsModel.addSong(response);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleNewSong(event);
+            }
         });
     }
 
@@ -99,7 +119,12 @@ public class MyTunesController implements Initializable {
             Optional<Song> result = dialog.showAndWait();
             result.ifPresent(response -> {
                 response.setID(selectedSong.getID());
-                this.tvSongsModel.edit(selectedSong, response);
+                try {
+                    this.tvSongsModel.edit(selectedSong, response);
+                } catch (DataException e) {
+                    createAlertDialog(e);
+                    handleEditSong(event);
+                }
             });
         }
     }
@@ -108,9 +133,14 @@ public class MyTunesController implements Initializable {
         Song selectedSong = tblViewRight.getSelectionModel().getSelectedItem();
         if(selectedSong != null)
         {
-            this.tvSongsModel.deleteSong(selectedSong);
-            this.lvSongsModel.removeOccurrence(selectedSong);
-            this.tvPlaylistsModel.refresh();
+            try {
+                this.tvSongsModel.deleteSong(selectedSong);
+                this.lvSongsModel.removeOccurrence(selectedSong);
+                this.tvPlaylistsModel.refresh();
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleDeleteSong(event);
+            }
         }
     }
 
@@ -120,10 +150,23 @@ public class MyTunesController implements Initializable {
         int index = tblViewLeft.getSelectionModel().getSelectedIndex();
 
         if(selectedSong != null && selectedPlaylist != null) {
-            this.lvSongsModel.addSong(selectedSong, selectedPlaylist);
-            selectedPlaylist.addSong(selectedSong);
-            this.tvPlaylistsModel.update(index, selectedPlaylist);
+            try {
+                this.lvSongsModel.addSong(selectedSong, selectedPlaylist);
+                selectedPlaylist.addSong(selectedSong);
+                this.tvPlaylistsModel.update(index, selectedPlaylist);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleSongToPlaylist(event);
+            }
+
         }
+    }
+
+    public void handleRightTableClicked(MouseEvent event)
+    {
+        tblViewLeft.getSelectionModel().select(null);
+        lstViewMiddle.getSelectionModel().select(null);
+        lvSongsModel.removeAll();
     }
 
     /*
@@ -133,7 +176,12 @@ public class MyTunesController implements Initializable {
         PlaylistDialog dialog = new PlaylistDialog();
         Optional<Playlist> result = dialog.showAndWait();
         result.ifPresent(response -> {
-            this.tvPlaylistsModel.addPlaylist(response);
+            try {
+                this.tvPlaylistsModel.addPlaylist(response);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleNewPlaylist(event);
+            }
         });
     }
 
@@ -146,7 +194,12 @@ public class MyTunesController implements Initializable {
             Optional<Playlist> result = dialog.showAndWait();
             result.ifPresent(response -> {
                 response.setID(selectedPlaylist.getID());
-                this.tvPlaylistsModel.edit(selectedPlaylist, response);
+                try {
+                    this.tvPlaylistsModel.edit(selectedPlaylist, response);
+                } catch (DataException e) {
+                    createAlertDialog(e);
+                    handleEditPlaylist(event);
+                }
             });
         }
 
@@ -156,8 +209,13 @@ public class MyTunesController implements Initializable {
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null)
         {
-            this.tvPlaylistsModel.delete(selectedPlaylist);
-            this.lvSongsModel.removeAll();
+            try {
+                this.tvPlaylistsModel.delete(selectedPlaylist);
+                this.lvSongsModel.removeAll();
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleDeletePlaylist(event);
+            }
         }
     }
 
@@ -170,14 +228,23 @@ public class MyTunesController implements Initializable {
         if(selectedPlaylist != null)
         {
             this.lvSongsModel.select(selectedPlaylist);
+            tblViewRight.getSelectionModel().select(null);
         }
+    }
+
+    public void handleListViewClicked(MouseEvent mouseEvent) {
     }
 
     public void handleMoveUp(ActionEvent event) {
         int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null && index != -1){
-            lvSongsModel.moveUp(index, selectedPlaylist);
+            try {
+                lvSongsModel.moveUp(index, selectedPlaylist);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleMoveUp(event);
+            }
         }
     }
 
@@ -185,7 +252,12 @@ public class MyTunesController implements Initializable {
         int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         if(selectedPlaylist != null && index != -1){
-            lvSongsModel.moveDown(index, selectedPlaylist);
+            try {
+                lvSongsModel.moveDown(index, selectedPlaylist);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleMoveDown(event);
+            }
         }
     }
 
@@ -195,7 +267,12 @@ public class MyTunesController implements Initializable {
         int index = lstViewMiddle.getSelectionModel().getSelectedIndex();
         if(selectedSong != null && selectedPlaylist != null){
             selectedPlaylist.remove(index);
-            this.lvSongsModel.delete(selectedPlaylist, index);
+            try {
+                this.lvSongsModel.delete(selectedPlaylist, index);
+            } catch (DataException e) {
+                createAlertDialog(e);
+                handleRemoveFromPlaylist(event);
+            }
         }
     }
 
@@ -227,6 +304,13 @@ public class MyTunesController implements Initializable {
 
     public void handleFilter(ActionEvent event) {
         String query = this.txtFieldFilter.getText().toLowerCase();
-        tvSongsModel.filter(query);
+        try {
+            tvSongsModel.filter(query);
+        } catch (DataException e) {
+            createAlertDialog(e);
+            handleFilter(event);
+        }
     }
+
+
 }

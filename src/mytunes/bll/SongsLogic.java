@@ -1,11 +1,11 @@
 package mytunes.bll;
 
 import mytunes.be.Song;
+import mytunes.dal.Exceptions.DataException;
 import mytunes.dal.SongDAO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SongsLogic {
 
@@ -15,23 +15,23 @@ public class SongsLogic {
         this.songDAO = new SongDAO();
     }
 
-    public List<Song> getAll() {
+    public List<Song> getAll() throws DataException {
         return songDAO.getAll();
     }
 
-    public int add(Song song) {
-        return songDAO.add(song);
+    public int add(Song song) throws DataException {
+        return songDAO.create(song);
     }
 
-    public void update(Song updatedSong) {
+    public void update(Song updatedSong) throws DataException {
         songDAO.update(updatedSong);
     }
 
-    public void delete(Song song) {
+    public void delete(Song song) throws DataException {
         songDAO.delete(song);
     }
 
-    public List<Song> filter(String query) {
+    public List<Song> filter(String query) throws DataException {
         List<Song> filtered = new ArrayList<>();
         List<Song> allSongs = this.getAll();
         for (Song song :

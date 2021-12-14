@@ -2,12 +2,13 @@ package mytunes.dal;
 
 import mytunes.be.Song;
 import mytunes.be.SongGenre;
+import mytunes.dal.Exceptions.DataException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongDAO {
+public class SongDAO implements ISongData {
 
     private DBConnector dbConnector;
 
@@ -15,7 +16,8 @@ public class SongDAO {
         dbConnector = new DBConnector();
     }
 
-    public List<Song> getAll() {
+    @Override
+    public List<Song> getAll() throws DataException {
         ArrayList<Song> allSongs = new ArrayList<>();
 
         try (Connection connection = dbConnector.getConnection()) {
@@ -37,13 +39,14 @@ public class SongDAO {
                 song.setID(id);
                 allSongs.add(song);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            throw new DataException("Cant connect to DB", exception);
         }
         return allSongs;
     }
 
-    public int add(Song song) {
+    @Override
+    public int create(Song song) throws DataException{
         String title = song.getTitle();
         String artist = song.getArtist();
         String genre = song.getGenre().toString();
@@ -66,12 +69,12 @@ public class SongDAO {
             rs.next();
             return rs.getInt("ID");
         } catch (SQLException exception) {
-            exception.printStackTrace();
-            return -1;
+            throw new DataException("Cant connect to DB", exception);
         }
     }
 
-    public void update(Song song) {
+    @Override
+    public void update(Song song) throws DataException{
 
         int id = song.getID();
         String title = song.getTitle();
@@ -94,11 +97,12 @@ public class SongDAO {
 
             statement.execute();
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            throw new DataException("Cant connect to DB", exception);
         }
     }
 
-    public void delete(Song song) {
+    @Override
+    public void delete(Song song) throws DataException{
         try (Connection connection = dbConnector.getConnection()) {
             //first, we delete all Song occurrences in Playlists
             String sqlPlaylists = "DELETE FROM SongsOnPlaylist WHERE SongID=?";
@@ -116,7 +120,7 @@ public class SongDAO {
 
             statement.execute();
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            throw new DataException("Cant connect to DB", exception);
         }
     }
 }
