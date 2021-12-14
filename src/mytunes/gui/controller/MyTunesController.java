@@ -34,12 +34,17 @@ public class MyTunesController implements Initializable {
     public ListView<Song> lstViewMiddle;
     private ListViewSongsModel lvSongsModel;
 
-    public Label lblSongPlaying;
-
     public TextField txtFieldFilter;
+
+    public Label lblSongPlaying;
+    public Slider sldrVolume;
+
+    private Song playingSong;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.playingSong = null;
+
         this.tvSongsModel = new TableViewSongsModel();
         this.tblViewRight.setItems(tvSongsModel.getSongsList());
 
@@ -50,6 +55,7 @@ public class MyTunesController implements Initializable {
         this.lstViewMiddle.setItems(lvSongsModel.getSongs());
 
         this.initTables();
+
     }
 
     /*
@@ -205,9 +211,18 @@ public class MyTunesController implements Initializable {
      */
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-        System.out.println(tblViewLeft.getSelectionModel().getSelectedItem());
-        System.out.println(tblViewRight.getSelectionModel().getSelectedItem());
-        System.out.println(lstViewMiddle.getSelectionModel().getSelectedItem());
+        Song allSong = tblViewRight.getSelectionModel().getSelectedItem();
+        Song playlistSong = lstViewMiddle.getSelectionModel().getSelectedItem();
+
+        if(allSong != null){
+            this.playingSong = allSong;
+        }
+        if(playlistSong != null){
+            this.playingSong = playlistSong;
+        }
+        if(this.playingSong != null){
+            this.playingSong.play();
+        }
     }
 
     public void handlePrevious(ActionEvent event) {
@@ -222,6 +237,10 @@ public class MyTunesController implements Initializable {
 
     public void handleVolume(MouseEvent mouseEvent) {
         System.out.println("Change of Volume");
+        double volume = sldrVolume.getValue();
+        if(this.playingSong != null){
+            this.playingSong.setVolume(volume);
+        }
 
     }
 

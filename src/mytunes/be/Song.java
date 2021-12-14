@@ -1,12 +1,20 @@
 package mytunes.be;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
+
 public class Song {
+
     private int ID;
     private String title;
     private String artist;
     private SongGenre genre;
     private int time;
     private String source;
+    private Media songMedia;
+    private MediaPlayer mediaPlayer;
 
     public Song(String title, String artist, SongGenre genre, int time, String source) {
         this.title = title;
@@ -14,6 +22,9 @@ public class Song {
         this.genre = genre;
         this.time = time;
         this.source = source;
+
+        this.songMedia = new Media(new File(this.source).toURI().toString());
+        this.mediaPlayer = new MediaPlayer(this.songMedia);
     }
 
     public String getTitle() {
@@ -64,6 +75,14 @@ public class Song {
 
     public void setGenre(SongGenre genre){
         this.genre = genre;
+    }
+
+    public void play(){
+        mediaPlayer.play();
+    }
+
+    public void setVolume(double volume){
+        mediaPlayer.setVolume(volume);
     }
 
     @Override
