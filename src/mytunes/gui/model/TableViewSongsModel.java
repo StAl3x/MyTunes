@@ -2,6 +2,7 @@ package mytunes.gui.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import mytunes.be.Playlist;
 import mytunes.be.Song;
 import mytunes.bll.SongsLogic;
 import mytunes.dal.Exceptions.DataException;
@@ -40,5 +41,11 @@ public class TableViewSongsModel {
     public void filter(String query) throws DataException {
         this.songsList.remove(0, this.songsList.size());
         this.songsList.addAll(this.songsLogic.filter(query));
+    }
+
+    public Playlist getPlaylist(){
+        Playlist playlistOfAllSongs = new Playlist("");
+        playlistOfAllSongs.addSongs(this.songsList);
+        return playlistOfAllSongs;
     }
 }

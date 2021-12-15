@@ -9,6 +9,7 @@ public class Playlist {
     private List<Song> songs;
     private int totalSongs;
     private int totalTime;
+    private int playingIndex = 0;
 
     public Playlist(String name) {
         this.name = name;
@@ -70,5 +71,13 @@ public class Playlist {
 
     public List<Song> getSongs() {
         return this.songs;
+    }
+
+    public void playFromIndex(int index){
+        this.songs.get(index).play();
+    }
+
+    public void selectIndex(int songIndex) {
+        this.playingIndex = songIndex;
     }
 }

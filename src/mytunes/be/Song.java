@@ -23,12 +23,6 @@ public class Song {
         this.genre = genre;
         this.time = time;
         this.source = source;
-
-        File file = new File(this.source);
-        if(file.exists()){
-            this.songMedia = new Media(file.toURI().toString());
-            this.mediaPlayer = new MediaPlayer(this.songMedia);
-        }
     }
 
     public String getTitle() {
@@ -82,6 +76,11 @@ public class Song {
     }
 
     public void play(){
+        File file = new File(this.source);
+        if(file.exists()){
+            this.songMedia = new Media(file.toURI().toString());
+            this.mediaPlayer = new MediaPlayer(this.songMedia);
+        }
         mediaPlayer.play();
     }
 
