@@ -84,8 +84,17 @@ public class Song {
         mediaPlayer.play();
     }
 
-    public void setVolume(double volume){
-        mediaPlayer.setVolume(volume);
+    public void stop() {
+        if(mediaPlayer != null){
+            mediaPlayer.stop();
+        }
+    }
+
+
+    public void setVolume(double value){
+        if(mediaPlayer != null){
+            mediaPlayer.setVolume(value);
+        }
     }
 
     @Override
@@ -99,6 +108,4 @@ public class Song {
                 this.source
         );
     }
-
-
 }

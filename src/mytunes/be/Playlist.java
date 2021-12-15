@@ -9,7 +9,8 @@ public class Playlist {
     private List<Song> songs;
     private int totalSongs;
     private int totalTime;
-    private int playingIndex = 0;
+    private int playingIndex;
+    private int tempIndex;
 
     public Playlist(String name) {
         this.name = name;
@@ -73,11 +74,32 @@ public class Playlist {
         return this.songs;
     }
 
-    public void playFromIndex(int index){
-        this.songs.get(index).play();
+    public void setTempIndex(int index) {
+        this.tempIndex = index;
     }
 
-    public void selectIndex(int songIndex) {
-        this.playingIndex = songIndex;
+    public void play() {
+        this.playingIndex = this.tempIndex;
+        this.songs.get(this.playingIndex).play();
+    }
+
+    public void next() {
+        this.songs.get(this.playingIndex).stop();
+        this.playingIndex++;
+        this.songs.get(this.playingIndex).play();
+    }
+
+    public void previous() {
+        this.songs.get(this.playingIndex).stop();
+        this.playingIndex--;
+        this.songs.get(this.playingIndex).play();
+    }
+
+    public void stop() {
+        this.songs.get(this.playingIndex).stop();
+    }
+
+    public void changeVolume(double value) {
+        this.songs.get(this.playingIndex).setVolume(value);
     }
 }

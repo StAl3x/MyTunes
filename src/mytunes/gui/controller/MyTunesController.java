@@ -42,6 +42,7 @@ public class MyTunesController implements Initializable {
     public Slider sldrVolume;
 
     private Playlist playlistPlaying;
+    private Playlist tempPlaylist;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -168,11 +169,11 @@ public class MyTunesController implements Initializable {
 
     public void handleRightTableClicked(MouseEvent event)
     {
-        tblViewLeft.getSelectionModel().select(null);
-        lstViewMiddle.getSelectionModel().select(null);
-        lvSongsModel.removeAll();
-        int songIndex = tblViewRight.getSelectionModel().getSelectedIndex();
-        tvSongsModel.getPlaylist().selectIndex(songIndex);
+        this.lstViewMiddle.getSelectionModel().select(null);
+
+        this.tempPlaylist = tvSongsModel.getPlaylist();
+        int selectedIndex = tblViewRight.getSelectionModel().getSelectedIndex();
+        this.tempPlaylist.setTempIndex(selectedIndex);
     }
 
     /*
@@ -190,7 +191,6 @@ public class MyTunesController implements Initializable {
             }
         });
     }
-
 
     public void handleEditPlaylist(ActionEvent event) {
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
@@ -234,18 +234,18 @@ public class MyTunesController implements Initializable {
         if(selectedPlaylist != null)
         {
             this.lvSongsModel.select(selectedPlaylist);
-            this.tblViewRight.getSelectionModel().select(null);
-            playlistToPlay = selectedPlaylist;
+            this.tempPlaylist = selectedPlaylist;
+            this.tempPlaylist.setTempIndex(0);
         }
     }
 
     public void handleListViewClicked(MouseEvent mouseEvent) {
+        this.tblViewRight.getSelectionModel().select(null);
+
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
         int songIndex = lstViewMiddle.getSelectionModel().getSelectedIndex();
-        if(selectedPlaylist != null){
-            playlistToPlay = selectedPlaylist;
-            playlistToPlay.selectIndex(songIndex);
-        }
+        this.tempPlaylist = selectedPlaylist;
+        this.tempPlaylist.setTempIndex(songIndex);
     }
 
     public void handleMoveUp(ActionEvent event) {
@@ -295,31 +295,31 @@ public class MyTunesController implements Initializable {
      */
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-        if(this.playlistToPlay != null){
-            int allSongsIndex = this.tblViewRight.getSelectionModel().getSelectedIndex();
-            int playlistSongsIndex = this.lstViewMiddle.getSelectionModel().getSelectedIndex();
-            if(allSongsIndex != -1){
-                this.playlistToPlay.playFromIndex(allSongsIndex);
-            } else if (playlistSongsIndex != -1){
-                this.playlistToPlay.playFromIndex(playlistSongsIndex);
-            }
+        if(this.tempPlaylist != null){
+            this.playlistPlaying = this.tempPlaylist;
+            this.tempPlaylist.play();
         }
     }
 
     public void handlePrevious(ActionEvent event) {
         System.out.println("Previous");
-
+        if(this.playlistPlaying != null){
+            this.playlistPlaying.previous();
+        }
     }
 
     public void handleNext(ActionEvent event) {
         System.out.println("Next");
-
+        if(this.playlistPlaying != null){
+            this.playlistPlaying.next();
+        }
     }
 
     public void handleVolume(MouseEvent mouseEvent) {
         System.out.println("Change of Volume");
-
-
+        if(this.playlistPlaying != null){
+            this.playlistPlaying.changeVolume(sldrVolume.getValue());
+        }
     }
 
     public void handleFilter(ActionEvent event) {
