@@ -78,28 +78,41 @@ public class Playlist {
         this.tempIndex = index;
     }
 
+    private void play(int index){
+        this.playingIndex = index;
+        this.songs.get(index).play();
+    }
+
     public void play() {
         this.playingIndex = this.tempIndex;
-        this.songs.get(this.playingIndex).play();
+        this.songs.get(this.tempIndex).play();
     }
 
     public void next() {
-        this.songs.get(this.playingIndex).stop();
-        this.playingIndex++;
-        this.songs.get(this.playingIndex).play();
+        if(this.playingIndex+1 < this.songs.size()){
+            this.stop();
+            this.playingIndex++;
+            this.play(this.playingIndex);
+        }
     }
 
     public void previous() {
-        this.songs.get(this.playingIndex).stop();
-        this.playingIndex--;
-        this.songs.get(this.playingIndex).play();
+        if(this.playingIndex-1 >= 0){
+            this.stop();
+            this.playingIndex--;
+            this.play(this.playingIndex);
+        }
     }
 
     public void stop() {
-        this.songs.get(this.playingIndex).stop();
+        getPlayingSong().stop();
     }
 
     public void changeVolume(double value) {
-        this.songs.get(this.playingIndex).setVolume(value);
+        getPlayingSong().setVolume(value);
+    }
+
+    private Song getPlayingSong(){
+        return this.songs.get(this.playingIndex);
     }
 }

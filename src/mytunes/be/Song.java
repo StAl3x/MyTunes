@@ -76,12 +76,16 @@ public class Song {
     }
 
     public void play(){
-        File file = new File(this.source);
-        if(file.exists()){
-            this.songMedia = new Media(file.toURI().toString());
-            this.mediaPlayer = new MediaPlayer(this.songMedia);
+        try{
+            File file = new File(this.source);
+            if(file.exists()){
+                this.songMedia = new Media(file.toURI().toString());
+                this.mediaPlayer = new MediaPlayer(this.songMedia);
+            }
+            mediaPlayer.play();
+        } catch (Exception exception){
+            //nothing
         }
-        mediaPlayer.play();
     }
 
     public void stop() {

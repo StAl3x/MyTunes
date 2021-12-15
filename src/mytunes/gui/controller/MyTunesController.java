@@ -301,6 +301,14 @@ public class MyTunesController implements Initializable {
         }
     }
 
+    public void handleStop(ActionEvent event){
+        System.out.println("Stop");
+        if(this.playlistPlaying != null){
+            this.playlistPlaying.stop();
+            this.playlistPlaying = null; //optional
+        }
+    }
+
     public void handlePrevious(ActionEvent event) {
         System.out.println("Previous");
         if(this.playlistPlaying != null){
@@ -331,6 +339,4 @@ public class MyTunesController implements Initializable {
             handleFilter(event);
         }
     }
-
-
 }
