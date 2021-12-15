@@ -295,7 +295,10 @@ public class MyTunesController implements Initializable {
      */
     public void handlePlay(ActionEvent event) {
         System.out.println("Play");
-        if(this.tempPlaylist != null && this.playlistPlaying == null){
+        if(this.playlistPlaying != null){
+            this.playlistPlaying.stop();
+        }
+        if(this.tempPlaylist != null){
             this.playlistPlaying = this.tempPlaylist;
             this.tempPlaylist.play();
         }
