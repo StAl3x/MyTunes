@@ -126,6 +126,7 @@ public class MyTunesController implements Initializable {
                 response.setID(selectedSong.getID());
                 try {
                     this.tvSongsModel.edit(selectedSong, response);
+                    this.tvPlaylistsModel.refresh();
                 } catch (DataException e) {
                     createAlertDialog(e);
                     handleEditSong(event);
