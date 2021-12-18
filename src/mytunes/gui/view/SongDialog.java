@@ -29,7 +29,7 @@ public class SongDialog extends Dialog<Song>{
             });
 
         } catch (IOException ioex){
-            System.out.println("Couldn't load view!");
+            //System.out.println("Couldn't load view!");
         }
     }
 

@@ -243,9 +243,11 @@ public class MyTunesController implements Initializable {
         this.tblViewRight.getSelectionModel().select(null);
 
         Playlist selectedPlaylist = tblViewLeft.getSelectionModel().getSelectedItem();
-        int songIndex = lstViewMiddle.getSelectionModel().getSelectedIndex();
-        this.tempPlaylist = selectedPlaylist;
-        this.tempPlaylist.setTempIndex(songIndex);
+        if(selectedPlaylist != null){
+            int songIndex = lstViewMiddle.getSelectionModel().getSelectedIndex();
+            this.tempPlaylist = selectedPlaylist;
+            this.tempPlaylist.setTempIndex(songIndex);
+        }
     }
 
     public void handleMoveUp(ActionEvent event) {
@@ -294,40 +296,39 @@ public class MyTunesController implements Initializable {
         TOP PART
      */
     public void handlePlay(ActionEvent event) {
-        System.out.println("Play");
         if(this.playlistPlaying != null){
             this.playlistPlaying.stop();
         }
         if(this.tempPlaylist != null){
             this.playlistPlaying = this.tempPlaylist;
-            this.tempPlaylist.play();
+            this.playlistPlaying.play();
+            this.lblSongPlaying.setText(this.playlistPlaying.getPlayingString());
         }
     }
 
     public void handleStop(ActionEvent event){
-        System.out.println("Stop");
         if(this.playlistPlaying != null){
             this.playlistPlaying.stop();
             this.playlistPlaying = null; //optional
+            this.lblSongPlaying.setText("no song playing");
         }
     }
 
     public void handlePrevious(ActionEvent event) {
-        System.out.println("Previous");
         if(this.playlistPlaying != null){
             this.playlistPlaying.previous();
+            this.lblSongPlaying.setText(this.playlistPlaying.getPlayingString());
         }
     }
 
     public void handleNext(ActionEvent event) {
-        System.out.println("Next");
         if(this.playlistPlaying != null){
             this.playlistPlaying.next();
+            this.lblSongPlaying.setText(this.playlistPlaying.getPlayingString());
         }
     }
 
     public void handleVolume(MouseEvent mouseEvent) {
-        System.out.println("Change of Volume");
         if(this.playlistPlaying != null){
             this.playlistPlaying.changeVolume(sldrVolume.getValue());
         }

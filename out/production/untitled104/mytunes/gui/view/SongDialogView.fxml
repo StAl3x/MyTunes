@@ -36,7 +36,6 @@
             <TextField fx:id="txtFieldTime" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="txtFieldFile" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Button mnemonicParsing="false" onAction="#handleChoose" text="Choose..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" text="More..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ChoiceBox fx:id="choiceBoxGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>

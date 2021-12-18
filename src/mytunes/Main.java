@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("gui/view/MyTunesView.fxml"));
@@ -17,8 +15,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("MyTunes");
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {

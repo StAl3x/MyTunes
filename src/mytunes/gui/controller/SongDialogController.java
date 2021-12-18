@@ -6,12 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import mytunes.be.Song;
 import mytunes.be.SongGenre;
 import mytunes.gui.model.ChoiceBoxGenresModel;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

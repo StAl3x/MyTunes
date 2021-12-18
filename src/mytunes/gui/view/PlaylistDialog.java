@@ -5,11 +5,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import mytunes.be.Playlist;
-import mytunes.be.Song;
 import mytunes.gui.controller.PlaylistDialogController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class PlaylistDialog extends Dialog<Playlist>{
 
@@ -31,7 +29,7 @@ public class PlaylistDialog extends Dialog<Playlist>{
             });
 
         } catch (IOException ioex){
-            System.out.println("Couldn't load view!");
+            //System.out.println("Couldn't load view!");
         }
     }
 

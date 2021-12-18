@@ -197,9 +197,9 @@
             </HBox>
          </children>
       </VBox>
-      <Label fx:id="lblSongPlaying" text="Song Playing" GridPane.columnIndex="1">
+      <Label fx:id="lblSongPlaying" text="no song playing" GridPane.columnIndex="1">
          <font>
-            <Font size="24.0" />
+            <Font size="13.0" />
          </font>
       </Label>
       <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">

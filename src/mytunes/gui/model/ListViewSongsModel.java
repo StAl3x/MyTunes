@@ -8,7 +8,6 @@ import mytunes.bll.SongsOnPlaylistLogic;
 import mytunes.dal.Exceptions.DataException;
 
 import java.util.Collections;
-import java.util.List;
 
 public class ListViewSongsModel {
 
@@ -24,11 +23,6 @@ public class ListViewSongsModel {
     public ObservableList<Song> getSongs()
     {
         return songsOnPlaylist;
-    }
-
-    public void addSongsToListView(List<Song> songs)
-    {
-        songsOnPlaylist.addAll(songs);
     }
 
     public void removeAll(){
@@ -61,7 +55,7 @@ public class ListViewSongsModel {
     }
 
     public void moveDown(int index, Playlist playlist) throws DataException {
-        int swapOther = Math.min(playlist.getSongs().size(), index+1);
+        int swapOther = Math.min(playlist.getSongs().size()-1, index+1);
         Collections.swap(this.songsOnPlaylist, index, swapOther);
         this.songsOnPlaylistLogic.moveDown(index, swapOther, playlist);
     }

@@ -4,7 +4,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.nio.file.Path;
 
 public class Song {
 
@@ -103,13 +102,9 @@ public class Song {
 
     @Override
     public String toString() {
-        return "%d\n%s: %s\n%s\t%d\n%s".formatted(
-                this.ID,
+        return "%s: %s".formatted(
                 this.artist,
-                this.title,
-                this.genre.toString(),
-                this.time,
-                this.source
+                this.title
         );
     }
 }

@@ -105,14 +105,16 @@ public class Playlist {
     }
 
     public void stop() {
-        getPlayingSong().stop();
+        playingSong().stop();
     }
 
     public void changeVolume(double value) {
-        getPlayingSong().setVolume(value);
+        playingSong().setVolume(value);
     }
 
-    private Song getPlayingSong(){
+    private Song playingSong(){
         return this.songs.get(this.playingIndex);
     }
+
+    public String getPlayingString() { return playingSong().toString(); }
 }
