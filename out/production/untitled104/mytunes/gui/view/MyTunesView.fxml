@@ -159,7 +159,13 @@
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnStop" mnemonicParsing="false" onAction="#handleStop" text="Stop" />
+                  <Button fx:id="btnStop" mnemonicParsing="false" onAction="#handleStop" text="Stop">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </HBox.margin></Button>
                   <Button fx:id="btnPrevious" mnemonicParsing="false" onAction="#handlePrevious" text="Previous">
                      <HBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
